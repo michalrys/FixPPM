@@ -23,6 +23,16 @@ Validates input and result fields if:
 * value is not dividable by 0,5 (paints table cell in yellow)
 * value is higher than 8 (paints table cell in yellow)
 * value is exactly 8 (paints table cell in green)
+* value is between 0,5 and 7,5 (paints table cell in light green)
+
+### Button "Insert hours"
+
+Open new window and do
+
+* filter tasks
+* select a single task
+* put hours
+* insert hours if possible starting from beginning of the hours table
 
 ### Checkbox "Auto clear & validate"
 
