@@ -34,6 +34,10 @@ Open new window and do
 * put hours
 * insert hours if possible starting from beginning of the hours table
 
+### Button "Check unused tasks"
+
+Set 'checked'/'unchecked' all tasks for which total hours is 0.
+
 ### Checkbox "Auto clear & validate"
 
 Automatically applies changes performed by buttons "Clear all 0,00" and "Validate".
