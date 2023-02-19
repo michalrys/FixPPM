@@ -5,8 +5,8 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://github.com/michalrys/FixPPM/edit/master/fixppm.js
 // @downloadURL  https://github.com/michalrys/FixPPM/edit/master/fixppm.js
-// @version      1.8.1
-// @description  Additional insert window created.
+// @version      1.8.2
+// @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
 // @grant        GM_addStyle
@@ -15,6 +15,7 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
+//3. Button Check unused tasks.
 //2. insertHours() → filter tasks, select task, put hours → insert to hour table if possible.
 //1. validateAndColorInput() | validateResults() → if hours 0h-7.5h → set light green.
 
@@ -42,6 +43,37 @@
         return "0,00" // pl-PL
         // return "0.00" // en-US
     }
+
+    // M.Rys: check unused tasks
+    function checkUnusedTasks() {
+        console.log("SELECT TASKS FOR WHICH TOTAL SUM OF HOURS IS EQUAL 0");
+
+        var taskTable = document.querySelector('#table3');
+        var tasksRows = taskTable.children[1];
+
+        var taskTotalHoursTable = document.querySelector('#table5');
+        var taskTotalHoursTBody = taskTotalHoursTable.children[1]
+         for(let i = 1; i < taskTotalHoursTBody.children.length; i++) {
+             let taskTotalHoursTD = taskTotalHoursTBody.children[i];
+             let taskTotalHoursCell = taskTotalHoursTD.children[0];
+             if(taskTotalHoursCell.children[0] !== undefined) {
+                 let taskTotalHoursTxt = taskTotalHoursCell.children[0].children[0].children[0].children[1].textContent;
+                 let taskTotalHours = parseFloat(taskTotalHoursTxt);
+                 if(taskTotalHours === parseFloat(0)) {
+                     let taskCell = tasksRows.children[i];
+                     let taskCheckBox = taskCell.children[0].children[0];
+                     if(taskCheckBox.checked) {
+                         taskCheckBox.checked = false;
+                         taskCheckBox.onclick();
+                     } else {
+                         taskCheckBox.checked = true;
+                         taskCheckBox.onclick();
+                     }
+                 }
+             }
+         }
+    }
+
     // M.Rys:
     function insertHours() {
 //         console.log("START INSERT HOURS");
@@ -657,6 +689,7 @@ hiWindow.document.writeln("</html>");
     createButton(document.body, clearZeros, "Clear all 0's");
     createButton(document.body, validateAllFields, "Validate");
     createButton(document.body, insertHours, "Insert hours");    // M.Rys: insert hours
+    createButton(document.body, checkUnusedTasks, "Check unused tasks");    // M.Rys: check unused tasks
     createCheckbox(document.body, checkTheBox, "Auto clear & validate");
 
     document.getElementById("wiTable_rightDataDiv").classList.remove("verticalScrollDiv");
