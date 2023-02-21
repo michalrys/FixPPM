@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://github.com/michalrys/FixPPM/edit/master/fixppm.js
 // @downloadURL  https://github.com/michalrys/FixPPM/edit/master/fixppm.js
-// @version      1.8.4
+// @version      1.8.5
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -15,6 +15,9 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
+//1.8.5  3) Bugfix for inserting/removing hours due to empty cells.
+//1.8.5  2) Add id for custom buttons.
+//1.8.5  1) Bugfix for setting decimal separator - repaced by checking if value is equal to zero.
 //1.8.4  1) Extend insertHours() with REMOVE button.
 //1.8.3  1) Bugfix for insertHours(): hours can be inserted for task with duplicated name.
 //1.8.2  3) Button Check unused tasks.
@@ -41,8 +44,9 @@
 
     // May be needed to change return in case of different locale in browser.
     // TODO - make the selection automatic
-    function getZeroInLocale() {
-        return "0,00" // pl-PL
+    function getZeroInLocale(content) {
+        return parseFloat(content) === parseFloat("0");
+        //return "0,00" // pl-PL
         //return "0.00" // en-US
     }
 
@@ -140,14 +144,19 @@
 //                     let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=3
 //                     let dayHoursCell = dayHoursRow.children[i]; //i=0
 //                     let dayHoursInput = dayHoursCell.children[0];
-//                     let currentHours = parseFloat(dayHoursInput.value);
+//                     let currentHours;
+//                     if(dayHoursInput.value === '' || dayHoursInput.value === null) {
+//                         currentHours = parseFloat('0');
+//                     } else {
+//                         currentHours = parseFloat(dayHoursInput.value);
+//                     }
 //                     dayHoursInput.value = currentHours + hoursToInsert;
 //                     dayHoursInput.onchange();
 //                     validateAllFields();
 //                 }
 //             }
 //         };
-//         // QUICK CHECK FOR INSERTING HOURS
+        // QUICK CHECK FOR INSERTING HOURS
 
 //         // QUICK CHECK FOR REMOVING HOURS
 //         console.log("START REMOVING HOURS");
@@ -200,7 +209,12 @@
 //             let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=5
 //             let dayHoursCell = dayHoursRow.children[i]; //i=0
 //             let dayHoursInput = dayHoursCell.children[0];
-//             let currentHours = parseFloat(dayHoursInput.value);
+//             let currentHours;
+//             if(dayHoursInput.value === null || dayHoursInput.value === "") {
+//                 currentHours = parseFloat("0");
+//             } else {
+//                 currentHours = parseFloat(dayHoursInput.value);
+//             }
 
 //             shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);
 //             if(shallRemoveHours) {
@@ -410,7 +424,7 @@ hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function insertHours() {");
 hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
-hiWindow.document.writeln("        hours = document.querySelector('#hoursAmount').value;");
+hiWindow.document.writeln("        hours = parseFloat(document.querySelector('#hoursAmount').value);");
 hiWindow.document.writeln("        let taskId = foundId.get(task);");
 hiWindow.document.writeln("        status.textContent = hours + \" hours were inserted to \" + task;");
 hiWindow.document.writeln(" ");
@@ -448,11 +462,16 @@ hiWindow.document.writeln("                    let dayHoursTBody = dayHoursTable
 hiWindow.document.writeln("                    let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=3");
 hiWindow.document.writeln("                    let dayHoursCell = dayHoursRow.children[i]; //i=0");
 hiWindow.document.writeln("                    let dayHoursInput = dayHoursCell.children[0];");
-hiWindow.document.writeln("                    let currentHours = parseFloat(dayHoursInput.value);");
-hiWindow.document.writeln("                    dayHoursInput.value = currentHours + parseFloat(hoursToInsert);");
+hiWindow.document.writeln("                    let currentHours;");
+hiWindow.document.writeln("                    if(dayHoursInput.value === '' || dayHoursInput.value === null) {");
+hiWindow.document.writeln("                        currentHours = parseFloat('0');");
+hiWindow.document.writeln("                    } else {");
+hiWindow.document.writeln("                        currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln("                    }");
+hiWindow.document.writeln("                    dayHoursInput.value = currentHours + hoursToInsert;");
 hiWindow.document.writeln("                    dayHoursInput.onchange();");
 hiWindow.document.writeln("                    // validateAllFields();");
-hiWindow.document.writeln("                    window.opener.document.querySelectorAll('input[value=Validate]')[0].click();");
+hiWindow.document.writeln("                    window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();");
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln("        };");
@@ -460,7 +479,7 @@ hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function removeHours() {");
 hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
-hiWindow.document.writeln("        hours = document.querySelector('#hoursAmount').value;");
+hiWindow.document.writeln("        hours = parseFloat(document.querySelector('#hoursAmount').value);");
 hiWindow.document.writeln("        let taskId = foundId.get(task);");
 hiWindow.document.writeln("        status.textContent = hours + \" hours were removed from \" + task;");
 hiWindow.document.writeln(" ");
@@ -487,7 +506,12 @@ hiWindow.document.writeln("            let dayHoursTBody = dayHoursTable.childre
 hiWindow.document.writeln("            let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=5");
 hiWindow.document.writeln("            let dayHoursCell = dayHoursRow.children[i]; //i=0");
 hiWindow.document.writeln("            let dayHoursInput = dayHoursCell.children[0];");
-hiWindow.document.writeln("            let currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln("            let currentHours;");
+hiWindow.document.writeln("            if(dayHoursInput.value === null || dayHoursInput.value === \"\") {");
+hiWindow.document.writeln("                currentHours = parseFloat(\"0\");");
+hiWindow.document.writeln("            } else {");
+hiWindow.document.writeln("                currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln("            }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);");
 hiWindow.document.writeln("            if(shallRemoveHours) {");
@@ -502,7 +526,8 @@ hiWindow.document.writeln("                } catch (error) {");
 hiWindow.document.writeln("                    console.log(\"Upps: some strange error :-(\");");
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("                //validateAllFields();");
-hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[value=Validate]')[0].click();");
+hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();");
+hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[id=clearZerosButton]')[0].click();");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln("        };");
 hiWindow.document.writeln("    }");
@@ -529,10 +554,11 @@ hiWindow.document.writeln("</html>");
         ".result0 { font-weight: normal; color: lightgrey !important; }" +
         ".subgroupings-right, .subgroupings-left { color: black !important; background-color: #d0d1ff !important; }");
 
-    function createButton(context, func, value) {
+    function createButton(context, func, value, id) {
         var button = document.createElement("input");
         button.type = "button";
         button.value = value;
+        button.id = id;
         button.onclick = func;
         button.style.padding = "5px";
         button.style.marginLeft = "10px";
@@ -574,7 +600,7 @@ hiWindow.document.writeln("</html>");
                 continue;
             }
 
-            if (allInputs[i].value == getZeroInLocale()) {
+            if (getZeroInLocale(allInputs[i].value)) {
                 allInputs[i].value = "";
             }
         }
@@ -596,7 +622,7 @@ hiWindow.document.writeln("</html>");
     }
 
     function validateInputEvent() {
-        if (this.value == getZeroInLocale()) {
+        if (getZeroInLocale(this.value)) {
             this.value = "";
             colorDefaultInput(this.parentNode);
         } else {
@@ -740,7 +766,7 @@ hiWindow.document.writeln("</html>");
             }
 
             if (inputNodes[i].value == "") {
-                inputNodes[i].value = getZeroInLocale();
+                inputNodes[i].value = parseFloat("0");
             }
         }
     }
@@ -818,7 +844,7 @@ hiWindow.document.writeln("</html>");
         cellHValue;
 
         for (var i = 0; i < rowsTotal; i++) {
-            if (cellH[i].innerHTML == getZeroInLocale()) {
+            if (getZeroInLocale(cellH[i].innerHTML)) {
                 cellH[i].classList.add("result0");
                 cellMD[i].classList.add("result0");
             } else {
@@ -848,10 +874,10 @@ hiWindow.document.writeln("</html>");
 
     colorHeaderRow();
 
-    createButton(document.body, clearZeros, "Clear all 0's");
-    createButton(document.body, validateAllFields, "Validate");
-    createButton(document.body, insertHours, "Insert hours");    // M.Rys: insert hours
-    createButton(document.body, checkUnusedTasks, "Check unused tasks");    // M.Rys: check unused tasks
+    createButton(document.body, clearZeros, "Clear all 0's", "clearZerosButton");
+    createButton(document.body, validateAllFields, "Validate", "validateAllFieldsButton");
+    createButton(document.body, insertHours, "Insert hours", "insertHoursButton");    // M.Rys: insert hours
+    createButton(document.body, checkUnusedTasks, "Check unused tasks", "checkUnusedTasksButton");    // M.Rys: check unused tasks
     createCheckbox(document.body, checkTheBox, "Auto clear & validate");
 
     document.getElementById("wiTable_rightDataDiv").classList.remove("verticalScrollDiv");
