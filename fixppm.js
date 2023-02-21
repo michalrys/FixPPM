@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://github.com/michalrys/FixPPM/edit/master/fixppm.js
 // @downloadURL  https://github.com/michalrys/FixPPM/edit/master/fixppm.js
-// @version      1.8.3
+// @version      1.8.4
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -15,6 +15,7 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
+//1.8.4  1) Extend insertHours() with REMOVE button.
 //1.8.3  1) Bugfix for insertHours(): hours can be inserted for task with duplicated name.
 //1.8.2  3) Button Check unused tasks.
 //1.8.2  2) insertHours() → filter tasks, select task, put hours → insert to hour table if possible.
@@ -77,6 +78,7 @@
 
     // M.Rys:
     function insertHours() {
+//         // QUICK CHECK FOR INSERTING HOURS
 //         console.log("START INSERT HOURS");
 //         //find tasks
 //         let found = [];
@@ -98,10 +100,10 @@
 //         console.log("OPEN WINDOWS, select task, write amount of hours, insert them.");
 //         // ******** put macro here : findTasksFilterAndSetToMenu() ************
 //         // ******** put macro here : insertHours() - content is below ************
-//         let task = '\tTask: Development (Baby Waltz)\n' //example
+//         let task = '5)\tTask: Development (Baby Waltz)\n' //example
 //         let hours = parseFloat(30);
 //         let taskId = foundId.get(task);
-//         console.log("INSERT DATA: " + task + ", id=" + taskId + ", hours=" + hours);
+//         console.log("INSERT DATA: " + task + ", id=" + taskId + ", hours=" + hours);  //'5) \tTask: Development (Baby Waltz)\n'
 //         //filter task
 
 //         //insert hours
@@ -145,7 +147,77 @@
 //                 }
 //             }
 //         };
+//         // QUICK CHECK FOR INSERTING HOURS
 
+//         // QUICK CHECK FOR REMOVING HOURS
+//         console.log("START REMOVING HOURS");
+//         //find tasks
+//         let found = [];
+//         let foundId = new Map();
+
+//         var taskTable = document.querySelector('#table3'); //put here window.opener.  <<<<<<
+//         var tasksRows = taskTable.children[1];
+//         for(let i = 1; i < tasksRows.children.length; i++) {
+//             let taskCell = tasksRows.children[i];  //i=5
+//             found.push(i + ")" + taskCell.children[1].textContent);  //'5) \tTask: Development (Baby Waltz)\n'
+//             foundId.set(found[i-1], i);
+//             console.log(found[i-1] + "id = " + i);
+//         };
+//         console.log(foundId);
+//         console.log(foundId.get(found[4]));
+//         //find tasks
+
+//         //filter task
+//         console.log("OPEN WINDOWS, select task, write amount of hours, insert them.");
+//         // ******** put macro here : findTasksFilterAndSetToMenu() ************
+//         // ******** put macro here : insertHours() - content is below ************
+//         let task = '5)\tTask: Development (Baby Waltz)\n' //example
+//         let hours = parseFloat(12);
+//         let taskId = foundId.get(task);
+//         console.log("REMOVE HOURS INPUT DATA: " + task + ", id=" + taskId + ", hours=" + hours);
+//         //filter task
+
+//         //insert hours
+//         // ! be careful with these
+//         let maxHoursDaily = 8;
+//         // ! be careful with these
+
+//         let shallRemoveHours = false;
+//         let totalDayHours = 0;
+//         var totalDayHoursTable = document.querySelector('#table7');  //put here window.opener.  <<<<<<
+//         var dayHoursTable = document.querySelector('#table4');  //put here window.opener.  <<<<<<
+
+//         var totalDayHoursRows = totalDayHoursTable.children[1];
+//         var totalDayHoursCells = totalDayHoursRows.children[1];
+//         for(let i = totalDayHoursCells.children.length - 1; i >= 0; i--) {
+//             let dayHoursComponent = totalDayHoursCells.children[i];
+//             let totalDayHoursText = dayHoursComponent.textContent;
+//             totalDayHours = parseFloat(totalDayHoursText);
+//             console.log("Day " + i + " -> " + totalDayHours);
+
+//             //var dayHoursTable = document.querySelector('#table4');
+//             let dayHoursTBody = dayHoursTable.children[1];
+//             let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=5
+//             let dayHoursCell = dayHoursRow.children[i]; //i=0
+//             let dayHoursInput = dayHoursCell.children[0];
+//             let currentHours = parseFloat(dayHoursInput.value);
+
+//             shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);
+//             if(shallRemoveHours) {
+//                 let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;
+//                 console.log("YES, remove hours here: " + hoursToRemove + " from " + hours + "| i = " + i + ",taskId=" + taskId);
+//                 hours = hours - hoursToRemove;
+
+//                 dayHoursInput.value = currentHours - hoursToRemove;
+//                 try {
+//                     dayHoursInput.onchange();
+//                 } catch (error) {
+//                     console.log("Upps: some strange error :-(");
+//                 }
+//                 validateAllFields();
+//             }
+//         };
+//         // QUICK CHECK FOR REMOVING HOURS
 
         //insert hours
         const originalWindow = window.opener;
@@ -200,12 +272,52 @@ hiWindow.document.writeln("            height: 40px;");
 hiWindow.document.writeln("        }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        input#insertButton {");
-hiWindow.document.writeln("            background: #62b0ff;");
+hiWindow.document.writeln("            background: #9cff62;");
+hiWindow.document.writeln("            box-shadow: 3px 3px 0 #000000;");
 hiWindow.document.writeln("            width: 150px;");
 hiWindow.document.writeln("            height: 40px;");
 hiWindow.document.writeln("            border-width: 3px;");
 hiWindow.document.writeln("            padding-left: 0px;");
 hiWindow.document.writeln("            margin-left: 50px;");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        input#removeButton {");
+hiWindow.document.writeln("            background: #ff6262;");
+hiWindow.document.writeln("            box-shadow: 3px 3px 0 #000000;");
+hiWindow.document.writeln("            transition: all .15s linear 0s;");
+hiWindow.document.writeln("            position: relative;");
+hiWindow.document.writeln("            display: inline-block;");
+hiWindow.document.writeln("            width: 150px;");
+hiWindow.document.writeln("            height: 40px;");
+hiWindow.document.writeln("            border-width: 3px;");
+hiWindow.document.writeln("            padding-left: 0px;");
+hiWindow.document.writeln("            margin-left: 20px;");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        input#insertButton:active {");
+hiWindow.document.writeln("            background: #63a83b;");
+hiWindow.document.writeln("            box-shadow: 0px 0px 0 #000000;");
+hiWindow.document.writeln("            transition: all .05s linear 0s;");
+hiWindow.document.writeln("            top: 3px;");
+hiWindow.document.writeln("            left: 3px;");
+hiWindow.document.writeln("            position: relative;");
+hiWindow.document.writeln("         }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        input#insertButton:hover {");
+hiWindow.document.writeln("            border-color: #0014ff;");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        input#removeButton:active {");
+hiWindow.document.writeln("            background: #ad3f3f;");
+hiWindow.document.writeln("            box-shadow: 0px 0px 0 #000000;");
+hiWindow.document.writeln("            transition: all .05s linear 0s;");
+hiWindow.document.writeln("            top: 3px;");
+hiWindow.document.writeln("            left: 3px;");
+hiWindow.document.writeln("            position: relative;");
+hiWindow.document.writeln("         }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        input#removeButton:hover {");
+hiWindow.document.writeln("            border-color: #0014ff;");
 hiWindow.document.writeln("        }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        div#status {");
@@ -219,7 +331,7 @@ hiWindow.document.writeln("            font-weight: normal;");
 hiWindow.document.writeln("        }");
 hiWindow.document.writeln("    </style>");
 hiWindow.document.writeln("</head>");
-hiWindow.document.writeln("<body onload=\"findTasksFilterAndSetToMenu()\">");
+hiWindow.document.writeln("<body>");
 hiWindow.document.writeln("<form>");
 hiWindow.document.writeln("    <label for=\"filterTasks\">Filter: </label>");
 hiWindow.document.writeln("    <input type=\"text\" id=\"filterTasks\" value=\"\" onkeyup=\"findTasksFilterAndSetToMenu()\">");
@@ -230,6 +342,7 @@ hiWindow.document.writeln("    </select>");
 hiWindow.document.writeln("    <br><label for=\"hoursAmount\">Hours:</label>");
 hiWindow.document.writeln("    <input type=\"text\" id=\"hoursAmount\" value=\"40\" size=\"100px\">");
 hiWindow.document.writeln("    <input type=\"button\" id=\"insertButton\" value=\"INSERT\" onclick=\"insertHours()\">");
+hiWindow.document.writeln("    <input type=\"button\" id=\"removeButton\" value=\"REMOVE\" onclick=\"removeHours()\">");
 hiWindow.document.writeln("    <br>");
 hiWindow.document.writeln("    <div id=\"status\">Status: <b id=\"statusMessage\">waiting for pressing INSERT button</b></div>");
 hiWindow.document.writeln("</form>");
@@ -293,8 +406,6 @@ hiWindow.document.writeln("            newOption.setAttribute('value', found);")
 hiWindow.document.writeln("            newOption.setAttribute('id', id);");
 hiWindow.document.writeln("            foundTasks.add(newOption);");
 hiWindow.document.writeln("        })");
-hiWindow.document.writeln(" ");
-hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function insertHours() {");
@@ -346,9 +457,59 @@ hiWindow.document.writeln("                }");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln("        };");
 hiWindow.document.writeln("    }");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("    function removeHours() {");
+hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
+hiWindow.document.writeln("        hours = document.querySelector('#hoursAmount').value;");
+hiWindow.document.writeln("        let taskId = foundId.get(task);");
+hiWindow.document.writeln("        status.textContent = hours + \" hours were removed from \" + task;");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        //insert hours");
+hiWindow.document.writeln("        // ! be careful with these");
+hiWindow.document.writeln("        let maxHoursDaily = 8;");
+hiWindow.document.writeln("        // ! be careful with these");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        let shallRemoveHours = false;");
+hiWindow.document.writeln("        let totalDayHours = 0;");
+hiWindow.document.writeln("        var totalDayHoursTable = window.opener.document.querySelector('#table7');  //put here window.opener.  <<<<<<");
+hiWindow.document.writeln("        var dayHoursTable = window.opener.document.querySelector('#table4');  //put here window.opener.  <<<<<<");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("        var totalDayHoursRows = totalDayHoursTable.children[1];");
+hiWindow.document.writeln("        var totalDayHoursCells = totalDayHoursRows.children[1];");
+hiWindow.document.writeln("        for(let i = totalDayHoursCells.children.length - 1; i >= 0; i--) {");
+hiWindow.document.writeln("            let dayHoursComponent = totalDayHoursCells.children[i];");
+hiWindow.document.writeln("            let totalDayHoursText = dayHoursComponent.textContent;");
+hiWindow.document.writeln("            totalDayHours = parseFloat(totalDayHoursText);");
+hiWindow.document.writeln("            console.log(\"Day \" + i + \" -> \" + totalDayHours);");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("            //var dayHoursTable = document.querySelector('#table4');");
+hiWindow.document.writeln("            let dayHoursTBody = dayHoursTable.children[1];");
+hiWindow.document.writeln("            let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=5");
+hiWindow.document.writeln("            let dayHoursCell = dayHoursRow.children[i]; //i=0");
+hiWindow.document.writeln("            let dayHoursInput = dayHoursCell.children[0];");
+hiWindow.document.writeln("            let currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("            shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);");
+hiWindow.document.writeln("            if(shallRemoveHours) {");
+hiWindow.document.writeln("                let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;");
+hiWindow.document.writeln("                console.log(\"YES, remove hours here: \" + hoursToRemove + \" from \" + hours + \"| i = \" + i + \",taskId=\" + taskId);");
+hiWindow.document.writeln("                hours = hours - hoursToRemove;");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("                dayHoursInput.value = currentHours - hoursToRemove;");
+hiWindow.document.writeln("                try {");
+hiWindow.document.writeln("                    dayHoursInput.onchange();");
+hiWindow.document.writeln("                } catch (error) {");
+hiWindow.document.writeln("                    console.log(\"Upps: some strange error :-(\");");
+hiWindow.document.writeln("                }");
+hiWindow.document.writeln("                //validateAllFields();");
+hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[value=Validate]')[0].click();");
+hiWindow.document.writeln("            }");
+hiWindow.document.writeln("        };");
+hiWindow.document.writeln("    }");
 hiWindow.document.writeln("</script>");
 hiWindow.document.writeln("</body>");
 hiWindow.document.writeln("</html>");
+
         validateAllFields()
         // PASTE HERE CONVERTED PAGE
 
