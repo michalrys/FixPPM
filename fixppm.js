@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://github.com/michalrys/FixPPM/edit/master/fixppm.js
 // @downloadURL  https://github.com/michalrys/FixPPM/edit/master/fixppm.js
-// @version      1.8.2
+// @version      1.8.3
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -15,9 +15,10 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
-//3. Button Check unused tasks.
-//2. insertHours() → filter tasks, select task, put hours → insert to hour table if possible.
-//1. validateAndColorInput() | validateResults() → if hours 0h-7.5h → set light green.
+//1.8.3  1) Bugfix for insertHours(): hours can be inserted for task with duplicated name.
+//1.8.2  3) Button Check unused tasks.
+//1.8.2  2) insertHours() → filter tasks, select task, put hours → insert to hour table if possible.
+//1.8.2  1) validateAndColorInput() | validateResults() → if hours 0h-7.5h → set light green.
 
 (function () {
     "use strict";
@@ -41,7 +42,7 @@
     // TODO - make the selection automatic
     function getZeroInLocale() {
         return "0,00" // pl-PL
-        // return "0.00" // en-US
+        //return "0.00" // en-US
     }
 
     // M.Rys: check unused tasks
@@ -85,7 +86,7 @@
 //         var tasksRows = taskTable.children[1];
 //         for(let i = 1; i < tasksRows.children.length; i++) {
 //             let taskCell = tasksRows.children[i];
-//             found.push(taskCell.children[1].textContent);
+//             found.push(i + ")" + taskCell.children[1].textContent);
 //             foundId.set(found[i-1], i);
 //             console.log(found[i-1] + "id = " + i);
 //         };
@@ -254,7 +255,7 @@ hiWindow.document.writeln("        var taskTable = window.opener.document.queryS
 hiWindow.document.writeln("        var tasksRows = taskTable.children[1];");
 hiWindow.document.writeln("        for(let i = 1; i < tasksRows.children.length; i++) {");
 hiWindow.document.writeln("            let taskCell = tasksRows.children[i];");
-hiWindow.document.writeln("            found.push(taskCell.children[1].textContent);");
+hiWindow.document.writeln("            found.push(i + \")\" + taskCell.children[1].textContent);");
 hiWindow.document.writeln("            foundId.set(found[i-1], i);");
 hiWindow.document.writeln("            console.log(found[i-1] + \"id = \" + i);");
 hiWindow.document.writeln("        };");
