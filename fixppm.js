@@ -15,6 +15,7 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
+//1.8.5  4) Bugfix for removing hours.
 //1.8.5  3) Bugfix for inserting/removing hours due to empty cells.
 //1.8.5  2) Add id for custom buttons.
 //1.8.5  1) Bugfix for setting decimal separator - repaced by checking if value is equal to zero.
@@ -218,7 +219,17 @@
 
 //             shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);
 //             if(shallRemoveHours) {
-//                 let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;
+//                 // let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;
+//                 let hoursToRemove;
+//                 if(totalDayHours <= hours && currentHours >= totalDayHours) {
+//                     hoursToRemove = totalDayHours;
+//                 } else if (totalDayHours <= hours && currentHours < totalDayHours) {
+//                     hoursToRemove = currentHours;
+//                 } else if(totalDayHours > hours && currentHours >= hours) {
+//                     hoursToRemove = hours;
+//                 } else if(totalDayHours > hours && currentHours < hours) {
+//                     hoursToRemove = currentHours;
+//                 }
 //                 console.log("YES, remove hours here: " + hoursToRemove + " from " + hours + "| i = " + i + ",taskId=" + taskId);
 //                 hours = hours - hoursToRemove;
 
@@ -231,7 +242,7 @@
 //                 validateAllFields();
 //             }
 //         };
-//         // QUICK CHECK FOR REMOVING HOURS
+        // QUICK CHECK FOR REMOVING HOURS
 
         //insert hours
         const originalWindow = window.opener;
@@ -515,7 +526,18 @@ hiWindow.document.writeln("            }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            shallRemoveHours = totalDayHours > parseFloat(0) && hours !== parseFloat(0) && currentHours > parseFloat(0);");
 hiWindow.document.writeln("            if(shallRemoveHours) {");
-hiWindow.document.writeln("                let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;");
+hiWindow.document.writeln("                // let hoursToRemove = totalDayHours <= hours ? totalDayHours : hours;");
+hiWindow.document.writeln("                let hoursToRemove;");
+hiWindow.document.writeln("                if(totalDayHours <= hours && currentHours >= totalDayHours) {");
+hiWindow.document.writeln("                    hoursToRemove = totalDayHours;");
+hiWindow.document.writeln("                } else if (totalDayHours <= hours && currentHours < totalDayHours) {");
+hiWindow.document.writeln("                    hoursToRemove = currentHours;");
+hiWindow.document.writeln("                } else if(totalDayHours > hours && currentHours >= hours) {");
+hiWindow.document.writeln("                    hoursToRemove = hours;");
+hiWindow.document.writeln("                } else if(totalDayHours > hours && currentHours < hours) {");
+hiWindow.document.writeln("                    hoursToRemove = currentHours;");
+hiWindow.document.writeln("                }");
+hiWindow.document.writeln(" ");
 hiWindow.document.writeln("                console.log(\"YES, remove hours here: \" + hoursToRemove + \" from \" + hours + \"| i = \" + i + \",taskId=\" + taskId);");
 hiWindow.document.writeln("                hours = hours - hoursToRemove;");
 hiWindow.document.writeln(" ");
@@ -534,6 +556,8 @@ hiWindow.document.writeln("    }");
 hiWindow.document.writeln("</script>");
 hiWindow.document.writeln("</body>");
 hiWindow.document.writeln("</html>");
+
+
 
         validateAllFields()
         // PASTE HERE CONVERTED PAGE
