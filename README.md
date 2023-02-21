@@ -31,8 +31,9 @@ Open new window and do
 
 * filter tasks
 * select a single task
-* put hours
-* insert hours if possible starting from beginning of the hours table
+* write amount of hours
+* insert hours if possible, starting from the first day in the hours table
+* remove hours if possible, starting from the last day in the hours table
 
 ### Button "Check unused tasks"
 
