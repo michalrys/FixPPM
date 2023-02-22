@@ -3,8 +3,8 @@
 // @namespace    https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
 // @homepage     https://github.com/michalrys/FixPPM
 // @homepageURL  https://github.com/michalrys/FixPPM
-// @updateURL    https://github.com/michalrys/FixPPM/edit/master/fixppm.js
-// @downloadURL  https://github.com/michalrys/FixPPM/edit/master/fixppm.js
+// @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
+// @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @version      1.8.5
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
