@@ -15,6 +15,7 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
+//1.8.6  2) bugfix - list only tasks -> TODO
 //1.8.6  1) Write / read file - first implementation.
 //1.8.5  4) Bugfix for removing hours.
 //1.8.5  3) Bugfix for inserting/removing hours due to empty cells.
@@ -459,8 +460,14 @@ hiWindow.document.writeln("        let found = [];");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        var taskTable = window.opener.document.querySelector('#table3'); //put here window.opener.  <<<<<<");
 hiWindow.document.writeln("        var tasksRows = taskTable.children[1];");
-hiWindow.document.writeln("        for(let i = 1; i < tasksRows.children.length; i++) {");
+hiWindow.document.writeln("        for (let i = 1; i < tasksRows.children.length; i++) {");
 hiWindow.document.writeln("            let taskCell = tasksRows.children[i];");
+hiWindow.document.writeln(" ");
+hiWindow.document.writeln("            // let className = tasksRows.children[i].children[1].className;");
+hiWindow.document.writeln("            // if (className.indexOf(\"subgroupings\") !== -1) {");
+hiWindow.document.writeln("            //     continue;");
+hiWindow.document.writeln("            // }");
+hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            found.push(i + \")\" + taskCell.children[1].textContent.replaceAll(\"\\n\",\"\"));");
 hiWindow.document.writeln("            foundId.set(found[i-1], i);");
 hiWindow.document.writeln("            console.log(found[i-1] + \"id = \" + i);");
@@ -521,16 +528,16 @@ hiWindow.document.writeln("        var dayHoursTable = window.opener.document.qu
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        var totalDayHoursRows = totalDayHoursTable.children[1];");
 hiWindow.document.writeln("        var totalDayHoursCells = totalDayHoursRows.children[1];");
-hiWindow.document.writeln("        for(let i = 0; i < totalDayHoursCells.children.length; i++) {");
+hiWindow.document.writeln("        for (let i = 0; i < totalDayHoursCells.children.length; i++) {");
 hiWindow.document.writeln("            let dayHoursComponent = totalDayHoursCells.children[i];");
 hiWindow.document.writeln("            let dayHoursBackgroundColor = dayHoursComponent.style.getPropertyValue(\"background-color\");");
 hiWindow.document.writeln("            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected || dayHoursBackgroundColor === bgColorDefaultExpected);");
-hiWindow.document.writeln("            if(shallInsertHours) {");
+hiWindow.document.writeln("            if (shallInsertHours) {");
 hiWindow.document.writeln("                let totalDayHoursText = dayHoursComponent.textContent;");
 hiWindow.document.writeln("                totalDayHours = parseFloat(totalDayHoursText);");
 hiWindow.document.writeln("                console.log(\"Day \" + i + \" -> \" + totalDayHours);");
 hiWindow.document.writeln(" ");
-hiWindow.document.writeln("                if(totalDayHours < maxHoursDaily && hours > parseFloat(0)) {");
+hiWindow.document.writeln("                if (totalDayHours < maxHoursDaily && hours > parseFloat(0)) {");
 hiWindow.document.writeln("                    let freeHours = maxHoursDaily - totalDayHours;");
 hiWindow.document.writeln("                    let hoursToInsert = freeHours <= hours ? freeHours : hours;");
 hiWindow.document.writeln("                    console.log(\"YES, insert hours here: \" + hoursToInsert + \" from \" + hours + \"| i = \" + i + \",taskId=\" + taskId);");
@@ -542,7 +549,7 @@ hiWindow.document.writeln("                    let dayHoursRow = dayHoursTBody.c
 hiWindow.document.writeln("                    let dayHoursCell = dayHoursRow.children[i]; //i=0");
 hiWindow.document.writeln("                    let dayHoursInput = dayHoursCell.children[0];");
 hiWindow.document.writeln("                    let currentHours;");
-hiWindow.document.writeln("                    if(dayHoursInput.value === '' || dayHoursInput.value === null) {");
+hiWindow.document.writeln("                    if (dayHoursInput.value === '' || dayHoursInput.value === null) {");
 hiWindow.document.writeln("                        currentHours = parseFloat('0');");
 hiWindow.document.writeln("                    } else {");
 hiWindow.document.writeln("                        currentHours = parseFloat(dayHoursInput.value);");
@@ -553,7 +560,8 @@ hiWindow.document.writeln("                    // validateAllFields();");
 hiWindow.document.writeln("                    window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();");
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("            }");
-hiWindow.document.writeln("        };");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln("        ;");
 hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function removeHours() {");
@@ -574,7 +582,7 @@ hiWindow.document.writeln("        var dayHoursTable = window.opener.document.qu
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        var totalDayHoursRows = totalDayHoursTable.children[1];");
 hiWindow.document.writeln("        var totalDayHoursCells = totalDayHoursRows.children[1];");
-hiWindow.document.writeln("        for(let i = totalDayHoursCells.children.length - 1; i >= 0; i--) {");
+hiWindow.document.writeln("        for (let i = totalDayHoursCells.children.length - 1; i >= 0; i--) {");
 hiWindow.document.writeln("            let dayHoursComponent = totalDayHoursCells.children[i];");
 hiWindow.document.writeln("            let totalDayHoursText = dayHoursComponent.textContent;");
 hiWindow.document.writeln("            totalDayHours = parseFloat(totalDayHoursText);");
@@ -586,14 +594,14 @@ hiWindow.document.writeln("            let dayHoursRow = dayHoursTBody.children[
 hiWindow.document.writeln("            let dayHoursCell = dayHoursRow.children[i]; //i=0");
 hiWindow.document.writeln("            let dayHoursInput = dayHoursCell.children[0];");
 hiWindow.document.writeln("            let currentHours;");
-hiWindow.document.writeln("            if(dayHoursInput.value === null || dayHoursInput.value === \"\") {");
+hiWindow.document.writeln("            if (dayHoursInput.value === null || dayHoursInput.value === \"\") {");
 hiWindow.document.writeln("                currentHours = parseFloat(\"0\");");
 hiWindow.document.writeln("            } else {");
 hiWindow.document.writeln("                currentHours = parseFloat(dayHoursInput.value);");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            shallRemoveHours = currentHours > parseFloat('0') && hours !== parseFloat('0');");
-hiWindow.document.writeln("            if(shallRemoveHours) {");
+hiWindow.document.writeln("            if (shallRemoveHours) {");
 hiWindow.document.writeln("                let hoursToRemove = currentHours <= hours ? currentHours : hours;");
 hiWindow.document.writeln("                console.log(\"YES, remove hours here: \" + hoursToRemove + \" from \" + hours + \"| i = \" + i + \",taskId=\" + taskId);");
 hiWindow.document.writeln("                hours = hours - hoursToRemove;");
@@ -608,7 +616,8 @@ hiWindow.document.writeln("                //validateAllFields();");
 hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();");
 hiWindow.document.writeln("                window.opener.document.querySelectorAll('input[id=clearZerosButton]')[0].click();");
 hiWindow.document.writeln("            }");
-hiWindow.document.writeln("        };");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln("        ;");
 hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function writeToTxtFile() {");
@@ -748,6 +757,9 @@ hiWindow.document.writeln(" ");
 hiWindow.document.writeln("</script>");
 hiWindow.document.writeln("</body>");
 hiWindow.document.writeln("</html>");
+
+
+
 
         validateAllFields()
         // PASTE HERE CONVERTED PAGE
