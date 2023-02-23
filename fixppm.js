@@ -15,7 +15,7 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications:
-//1.8.6  2) bugfix - list only tasks -> TODO
+//1.8.6  2) bugfix - remove \\r
 //1.8.6  1) Write / read file - first implementation.
 //1.8.5  4) Bugfix for removing hours.
 //1.8.5  3) Bugfix for inserting/removing hours due to empty cells.
@@ -687,7 +687,7 @@ hiWindow.document.writeln("        async function parseReadTxt() {");
 hiWindow.document.writeln("            const content = await readFile();");
 hiWindow.document.writeln("            // console.log(content);");
 hiWindow.document.writeln(" ");
-hiWindow.document.writeln("            let lines = content.split(\"\\n\")");
+hiWindow.document.writeln("            let lines = content.replaceAll(\"\\r\", \"\").split(\"\\n\")");
 hiWindow.document.writeln("            let currentTask;");
 hiWindow.document.writeln("            let hours;");
 hiWindow.document.writeln("            let increase = false;");
@@ -757,7 +757,6 @@ hiWindow.document.writeln(" ");
 hiWindow.document.writeln("</script>");
 hiWindow.document.writeln("</body>");
 hiWindow.document.writeln("</html>");
-
 
 
 
