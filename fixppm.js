@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
-// @version      1.8.6
+// @version      1.8.7
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -14,7 +14,11 @@
 
 //forked from: https://github.com/DamianZyngier/FixPPM
 
-//search for M.Rys -> my modifications:
+//search for M.Rys -> my modifications
+//1.8.7  4) bugfix for window - filter on start up
+//1.8.7  3) bugfix for window - parse numbers with , and .
+//1.8.7  2) bugfix - do not list task for which hours cannot be added: contains Project: || Misc -
+//1.8.7  1) bugfix - duplicated tasks with _duplicated
 //1.8.6  2) bugfix - remove \\r
 //1.8.6  1) Write / read file - first implementation.
 //1.8.5  4) Bugfix for removing hours.
@@ -47,7 +51,7 @@
 
     // May be needed to change return in case of different locale in browser.
     // TODO - make the selection automatic
-    function getZeroInLocale(content) {
+    function isZero(content) {
         return parseFloat(content) === parseFloat("0");
         //return "0,00" // pl-PL
         //return "0.00" // en-US
@@ -95,7 +99,11 @@
 //         var tasksRows = taskTable.children[1];
 //         for(let i = 1; i < tasksRows.children.length; i++) {
 //             let taskCell = tasksRows.children[i];
-//             found.push(i + ")" + taskCell.children[1].textContent);
+//             let taskName = taskCell.children[1].textContent.replaceAll("\n","");
+//             if(found.includes(taskName)) {
+//                 taskName = taskName + "_duplicated";
+//             }
+//             found.push(taskName);
 //             foundId.set(found[i-1], i);
 //             console.log(found[i-1] + "id = " + i);
 //         };
@@ -107,7 +115,7 @@
 //         console.log("OPEN WINDOWS, select task, write amount of hours, insert them.");
 //         // ******** put macro here : findTasksFilterAndSetToMenu() ************
 //         // ******** put macro here : insertHours() - content is below ************
-//         let task = '5)\tTask: Development (Baby Waltz)\n' //example
+//         let task = '\tTask: Development (Baby Waltz)' //example
 //         let hours = parseFloat(30);
 //         let taskId = foundId.get(task);
 //         console.log("INSERT DATA: " + task + ", id=" + taskId + ", hours=" + hours);  //'5) \tTask: Development (Baby Waltz)\n'
@@ -446,6 +454,7 @@ hiWindow.document.writeln("    let foundId = new Map();");
 hiWindow.document.writeln("    let task = \"\";");
 hiWindow.document.writeln("    let hours = \"\";");
 hiWindow.document.writeln("    const status = document.querySelector('#statusMessage');");
+hiWindow.document.writeln("    document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function findTasksFilterAndSetToMenu() {");
 hiWindow.document.writeln("        console.log(\"filter\");");
@@ -460,17 +469,23 @@ hiWindow.document.writeln("        let found = [];");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        var taskTable = window.opener.document.querySelector('#table3'); //put here window.opener.  <<<<<<");
 hiWindow.document.writeln("        var tasksRows = taskTable.children[1];");
+hiWindow.document.writeln("        let iFound = -1;");
 hiWindow.document.writeln("        for (let i = 1; i < tasksRows.children.length; i++) {");
 hiWindow.document.writeln("            let taskCell = tasksRows.children[i];");
 hiWindow.document.writeln(" ");
-hiWindow.document.writeln("            // let className = tasksRows.children[i].children[1].className;");
-hiWindow.document.writeln("            // if (className.indexOf(\"subgroupings\") !== -1) {");
-hiWindow.document.writeln("            //     continue;");
-hiWindow.document.writeln("            // }");
+hiWindow.document.writeln("            let taskName = taskCell.children[1].textContent.replaceAll(\"\\n\",\"\").replaceAll(\"\\t\",\"\");");
+hiWindow.document.writeln("            if(taskName.includes(\"Project:\") || taskName.includes(\"Misc -\")) {");
+hiWindow.document.writeln("                continue;");
+hiWindow.document.writeln("            }");
+hiWindow.document.writeln("            iFound = iFound + 1;");
+hiWindow.document.writeln("            if(found.includes(taskName)) {");
+hiWindow.document.writeln("                taskName = taskName + \"_duplicated\";");
+hiWindow.document.writeln("            }");
+hiWindow.document.writeln("            found.push(taskName);");
+hiWindow.document.writeln("            // found.push(i + \")\" + taskCell.children[1].textContent.replaceAll(\"\\n\",\"\"));");
 hiWindow.document.writeln(" ");
-hiWindow.document.writeln("            found.push(i + \")\" + taskCell.children[1].textContent.replaceAll(\"\\n\",\"\"));");
-hiWindow.document.writeln("            foundId.set(found[i-1], i);");
-hiWindow.document.writeln("            console.log(found[i-1] + \"id = \" + i);");
+hiWindow.document.writeln("            foundId.set(found[iFound], i);");
+hiWindow.document.writeln("            console.log(found[iFound] + \"id = \" + i);");
 hiWindow.document.writeln("        };");
 hiWindow.document.writeln("        console.log(foundId);");
 hiWindow.document.writeln("        console.log(foundId.get(found[4]));");
@@ -510,7 +525,13 @@ hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function insertHours() {");
 hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
-hiWindow.document.writeln("        hours = parseFloat(document.querySelector('#hoursAmount').value);");
+hiWindow.document.writeln("        // hours = parseFloat(document.querySelector('#hoursAmount').value);");
+hiWindow.document.writeln("        if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("            hours = parseFloat(document.querySelector('#hoursAmount').value.replaceAll(\",\",\".\"));");
+hiWindow.document.writeln("        } else {");
+hiWindow.document.writeln("            hours = parseFloat(document.querySelector('#hoursAmount').value.replaceAll(\".\",\",\"));");
+hiWindow.document.writeln("        }");
+hiWindow.document.writeln(" ");
 hiWindow.document.writeln("        let taskId = foundId.get(task);");
 hiWindow.document.writeln("        status.textContent = hours + \" hours were inserted to \" + task;");
 hiWindow.document.writeln(" ");
@@ -552,7 +573,12 @@ hiWindow.document.writeln("                    let currentHours;");
 hiWindow.document.writeln("                    if (dayHoursInput.value === '' || dayHoursInput.value === null) {");
 hiWindow.document.writeln("                        currentHours = parseFloat('0');");
 hiWindow.document.writeln("                    } else {");
-hiWindow.document.writeln("                        currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln("                        if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("                            currentHours = parseFloat(dayHoursInput.value.replaceAll(\",\",\".\"));");
+hiWindow.document.writeln("                        } else {");
+hiWindow.document.writeln("                            currentHours = parseFloat(dayHoursInput.value.replaceAll(\".\",\",\"));");
+hiWindow.document.writeln("                        }");
+hiWindow.document.writeln("                        // currentHours = parseFloat(dayHoursInput.value);");
 hiWindow.document.writeln("                    }");
 hiWindow.document.writeln("                    dayHoursInput.value = currentHours + hoursToInsert;");
 hiWindow.document.writeln("                    dayHoursInput.onchange();");
@@ -561,12 +587,16 @@ hiWindow.document.writeln("                    window.opener.document.querySelec
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln("        }");
-hiWindow.document.writeln("        ;");
 hiWindow.document.writeln("    }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("    function removeHours() {");
 hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
-hiWindow.document.writeln("        hours = parseFloat(document.querySelector('#hoursAmount').value);");
+hiWindow.document.writeln("        // hours = parseFloat(document.querySelector('#hoursAmount').value);");
+hiWindow.document.writeln("        if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("            hours = parseFloat(document.querySelector('#hoursAmount').value.replaceAll(\",\",\".\"));");
+hiWindow.document.writeln("        } else {");
+hiWindow.document.writeln("            hours = parseFloat(document.querySelector('#hoursAmount').value.replaceAll(\".\",\",\"));");
+hiWindow.document.writeln("        }");
 hiWindow.document.writeln("        let taskId = foundId.get(task);");
 hiWindow.document.writeln("        status.textContent = hours + \" hours were removed from \" + task;");
 hiWindow.document.writeln(" ");
@@ -597,7 +627,12 @@ hiWindow.document.writeln("            let currentHours;");
 hiWindow.document.writeln("            if (dayHoursInput.value === null || dayHoursInput.value === \"\") {");
 hiWindow.document.writeln("                currentHours = parseFloat(\"0\");");
 hiWindow.document.writeln("            } else {");
-hiWindow.document.writeln("                currentHours = parseFloat(dayHoursInput.value);");
+hiWindow.document.writeln("                if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("                    currentHours = parseFloat(dayHoursInput.value.replaceAll(\",\",\".\"));");
+hiWindow.document.writeln("                } else {");
+hiWindow.document.writeln("                    currentHours = parseFloat(dayHoursInput.value.replaceAll(\".\",\",\"));");
+hiWindow.document.writeln("                }");
+hiWindow.document.writeln("                // currentHours = parseFloat(dayHoursInput.value);");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            shallRemoveHours = currentHours > parseFloat('0') && hours !== parseFloat('0');");
@@ -650,7 +685,7 @@ hiWindow.document.writeln(" ");
 hiWindow.document.writeln("            for (let i = 0; i < fondTasks.length; i++) {");
 hiWindow.document.writeln("                let foundTask = fondTasks[i].value;");
 hiWindow.document.writeln("                await writable.write(\"====\" + foundTask + \"\\n\");");
-hiWindow.document.writeln("                await writable.write(100 + \"\\n\");");
+hiWindow.document.writeln("                await writable.write(200 + \"\\n\");");
 hiWindow.document.writeln("            }");
 hiWindow.document.writeln("            await writable.close();");
 hiWindow.document.writeln("        }");
@@ -711,10 +746,15 @@ hiWindow.document.writeln("                    console.log(\"\\t-->TASK|\" + cur
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("                if (firstLetter === \"+\") {");
 hiWindow.document.writeln("                    increase = true;");
-hiWindow.document.writeln("                    hours = parseFloat(line.split(\"+\")[1]);");
+hiWindow.document.writeln("                    if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("                        hours = parseFloat(line.replaceAll(\",\",\".\").split(\"+\")[1]);");
+hiWindow.document.writeln("                    } else {");
+hiWindow.document.writeln("                        hours = parseFloat(line.replaceAll(\".\",\",\").split(\"+\")[1]);");
+hiWindow.document.writeln("                    }");
 hiWindow.document.writeln("                    if (hours === null || hours === parseFloat(\"0\")) {");
 hiWindow.document.writeln("                        continue;");
 hiWindow.document.writeln("                    }");
+hiWindow.document.writeln("                    console.log(\"\\thours=\" + hours);");
 hiWindow.document.writeln("                    let foundTaskMenu = document.querySelector('#foundTasks');");
 hiWindow.document.writeln("                    let foundTaskElements = foundTaskMenu.children;");
 hiWindow.document.writeln("                    for (let i = 0; i < foundTaskElements.length; i++) {");
@@ -730,10 +770,15 @@ hiWindow.document.writeln("                    }");
 hiWindow.document.writeln("                }");
 hiWindow.document.writeln("                if (firstLetter === \"-\") {");
 hiWindow.document.writeln("                    increase = true;");
-hiWindow.document.writeln("                    hours = parseFloat(line.split(\"-\")[1]);");
+hiWindow.document.writeln("                    if(parseFloat(\"0,1\") === 0) {");
+hiWindow.document.writeln("                        hours = parseFloat(line.replaceAll(\",\",\".\").split(\"-\")[1]);");
+hiWindow.document.writeln("                    } else {");
+hiWindow.document.writeln("                        hours = parseFloat(line.replaceAll(\".\",\",\").split(\"-\")[1]);");
+hiWindow.document.writeln("                    }");
 hiWindow.document.writeln("                    if (hours === null || hours === parseFloat(\"0\")) {");
 hiWindow.document.writeln("                        continue;");
 hiWindow.document.writeln("                    }");
+hiWindow.document.writeln("                    console.log(\"\\thours=\" + hours);");
 hiWindow.document.writeln("                    let foundTaskMenu = document.querySelector('#foundTasks');");
 hiWindow.document.writeln("                    let foundTaskElements = foundTaskMenu.children;");
 hiWindow.document.writeln("                    for (let i = 0; i < foundTaskElements.length; i++) {");
@@ -759,7 +804,7 @@ hiWindow.document.writeln("</body>");
 hiWindow.document.writeln("</html>");
 
 
-
+        window.opener.document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();
         validateAllFields()
         // PASTE HERE CONVERTED PAGE
 
@@ -825,7 +870,7 @@ hiWindow.document.writeln("</html>");
                 continue;
             }
 
-            if (getZeroInLocale(allInputs[i].value)) {
+            if (isZero(allInputs[i].value)) {
                 allInputs[i].value = "";
             }
         }
@@ -847,7 +892,7 @@ hiWindow.document.writeln("</html>");
     }
 
     function validateInputEvent() {
-        if (getZeroInLocale(this.value)) {
+        if (isZero(this.value)) {
             this.value = "";
             colorDefaultInput(this.parentNode);
         } else {
@@ -1069,7 +1114,7 @@ hiWindow.document.writeln("</html>");
         cellHValue;
 
         for (var i = 0; i < rowsTotal; i++) {
-            if (getZeroInLocale(cellH[i].innerHTML)) {
+            if (isZero(cellH[i].innerHTML)) {
                 cellH[i].classList.add("result0");
                 cellMD[i].classList.add("result0");
             } else {
