@@ -43,32 +43,32 @@
 
         var taskTotalHoursTable = document.querySelector('#table5');
         var taskTotalHoursTBody = taskTotalHoursTable.children[1]
-         for(let i = 1; i < taskTotalHoursTBody.children.length; i++) {
-             let taskTotalHoursTD = taskTotalHoursTBody.children[i];
-             let taskTotalHoursCell = taskTotalHoursTD.children[0];
-             if(taskTotalHoursCell.children[0] !== undefined) {
-                 let taskTotalHoursTxt = taskTotalHoursCell.children[0].children[0].children[0].children[1].textContent;
-                 let taskTotalHours = parseFloat(taskTotalHoursTxt);
-                 if(taskTotalHours === parseFloat(0)) {
-                     let taskCell = tasksRows.children[i];
-                     let taskCheckBox = taskCell.children[0].children[0];
-                     if(taskCheckBox.checked) {
-                         taskCheckBox.checked = false;
-                         taskCheckBox.onclick();
-                     } else {
-                         taskCheckBox.checked = true;
-                         taskCheckBox.onclick();
-                     }
-                 }
-             }
-         }
+        for (let i = 1; i < taskTotalHoursTBody.children.length; i++) {
+            let taskTotalHoursTD = taskTotalHoursTBody.children[i];
+            let taskTotalHoursCell = taskTotalHoursTD.children[0];
+            if (taskTotalHoursCell.children[0] !== undefined) {
+                let taskTotalHoursTxt = taskTotalHoursCell.children[0].children[0].children[0].children[1].textContent;
+                let taskTotalHours = parseFloat(taskTotalHoursTxt);
+                if (taskTotalHours === parseFloat(0)) {
+                    let taskCell = tasksRows.children[i];
+                    let taskCheckBox = taskCell.children[0].children[0];
+                    if (taskCheckBox.checked) {
+                        taskCheckBox.checked = false;
+                        taskCheckBox.onclick();
+                    } else {
+                        taskCheckBox.checked = true;
+                        taskCheckBox.onclick();
+                    }
+                }
+            }
+        }
     }
 
     // M.Rys: additional window for inserting/removing hours
     function insertHours() {
         const originalWindow = window.opener;
         const aboutContent = 'Set hours window';
-        const windowFeatures = "left=600,top=150,width=700,height=200,about:blank,about=test";
+        const windowFeatures = "left=600,top=150,width=710,height=210,about:blank,about=test";
         const hiWindow = window.open(
             "",
             "insertHours",
@@ -91,7 +91,6 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        input {");
         hiWindow.document.writeln("            background: #e8ffe5;");
-        hiWindow.document.writeln("            box-shadow: 3px 3px #b4b4b4 inset;");
         hiWindow.document.writeln("            font-size: 16px;");
         hiWindow.document.writeln("            border-radius: 15px;");
         hiWindow.document.writeln("            border-width: 0px;");
@@ -104,19 +103,17 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        input#hoursAmount {");
         hiWindow.document.writeln("            width: 50px;");
-        hiWindow.document.writeln("            box-shadow: 3px 3px #b4b4b4 inset;");
         hiWindow.document.writeln("        }");
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        select {");
         hiWindow.document.writeln("            background: #e8ffe5;");
-        hiWindow.document.writeln("            box-shadow: 3px 3px #b4b4b4 inset;");
         hiWindow.document.writeln("            font-size: 16px;");
         hiWindow.document.writeln("            border-radius: 15px;");
         hiWindow.document.writeln("            border-width: 0px;");
         hiWindow.document.writeln("            padding: 5px;");
         hiWindow.document.writeln("            padding-left: 20px;");
         hiWindow.document.writeln("            margin: 5px;");
-        hiWindow.document.writeln("            width: 620px;");
+        hiWindow.document.writeln("            width: 625px;");
         hiWindow.document.writeln("            height: 40px;");
         hiWindow.document.writeln("        }");
         hiWindow.document.writeln(" ");
@@ -239,34 +236,53 @@
         hiWindow.document.writeln("            border-color: #0014ff;");
         hiWindow.document.writeln("        }");
         hiWindow.document.writeln(" ");
-        hiWindow.document.writeln("        div#status {");
+        hiWindow.document.writeln("        div#statusMessage {");
         hiWindow.document.writeln("            font-size: 16px;");
         hiWindow.document.writeln("            color: #939393;");
         hiWindow.document.writeln("            margin-top: 10px;");
-        hiWindow.document.writeln("            font-weight: bold;");
-        hiWindow.document.writeln("        }");
-        hiWindow.document.writeln(" ");
-        hiWindow.document.writeln("        b {");
         hiWindow.document.writeln("            font-weight: normal;");
         hiWindow.document.writeln("        }");
         hiWindow.document.writeln("    </style>");
         hiWindow.document.writeln("</head>");
         hiWindow.document.writeln("<body>");
         hiWindow.document.writeln("<form>");
-        hiWindow.document.writeln("    <label for=\"filterTasks\">Filter: </label>");
-        hiWindow.document.writeln("    <input type=\"text\" id=\"filterTasks\" value=\"\" onkeyup=\"findTasksFilterAndSetToMenu()\">");
-        hiWindow.document.writeln("    <br>");
-        hiWindow.document.writeln("    <label for=\"foundTasks\">Task: </label>");
-        hiWindow.document.writeln("    <select id=\"foundTasks\">");
-        hiWindow.document.writeln("    </select>");
-        hiWindow.document.writeln("    <br><label for=\"hoursAmount\">Hours:</label>");
-        hiWindow.document.writeln("    <input type=\"text\" id=\"hoursAmount\" value=\"40\" size=\"100px\">");
-        hiWindow.document.writeln("    <input type=\"button\" id=\"insertButton\" value=\"INSERT\" onclick=\"insertHours()\">");
-        hiWindow.document.writeln("    <input type=\"button\" id=\"removeButton\" value=\"REMOVE\" onclick=\"removeHours()\">");
-        hiWindow.document.writeln("    <input type=\"button\" id=\"writeToTxtButton\" value=\"writeTXT\" onclick=\"writeToTxtFile()\">");
-        hiWindow.document.writeln("    <input type=\"button\" id=\"readTxtButton\" value=\"parseTXT\" onclick=\"readTxtFile()\">");
-        hiWindow.document.writeln("    <br>");
-        hiWindow.document.writeln("    <div id=\"status\">Status: <b id=\"statusMessage\">waiting for pressing INSERT button</b></div>");
+        hiWindow.document.writeln("    <table>");
+        hiWindow.document.writeln("        <tr>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <label for=\"filterTasks\">Filter: </label>");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <input type=\"text\" id=\"filterTasks\" value=\"\" onkeyup=\"findTasksFilterAndSetToMenu()\">");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("        </tr>");
+        hiWindow.document.writeln("        <tr>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <label for=\"foundTasks\">Task: </label>");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <select id=\"foundTasks\">");
+        hiWindow.document.writeln("                </select>");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("        </tr>");
+        hiWindow.document.writeln("        <tr>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <label for=\"hoursAmount\">Hours:</label>");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <input type=\"text\" id=\"hoursAmount\" value=\"40\" size=\"100px\">");
+        hiWindow.document.writeln("                <input type=\"button\" id=\"insertButton\" value=\"INSERT\" onclick=\"insertHours()\">");
+        hiWindow.document.writeln("                <input type=\"button\" id=\"removeButton\" value=\"REMOVE\" onclick=\"removeHours()\">");
+        hiWindow.document.writeln("                <input type=\"button\" id=\"writeToTxtButton\" value=\"writeTXT\" onclick=\"writeToTxtFile()\">");
+        hiWindow.document.writeln("                <input type=\"button\" id=\"readTxtButton\" value=\"parseTXT\" onclick=\"readTxtFile()\">");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("        </tr>");
+        hiWindow.document.writeln("        <tr>");
+        hiWindow.document.writeln("            <td></td>");
+        hiWindow.document.writeln("            <td>");
+        hiWindow.document.writeln("                <div id=\"statusMessage\">Waiting for pressing some button...</div>");
+        hiWindow.document.writeln("            </td>");
+        hiWindow.document.writeln("        </tr>");
+        hiWindow.document.writeln("    </table>");
         hiWindow.document.writeln("</form>");
         hiWindow.document.writeln("<script>");
         hiWindow.document.writeln("    let foundFiltered = [];");
@@ -496,7 +512,18 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        // open file in order to write a file & what to write");
         hiWindow.document.writeln("        async function writeFile() {");
-        hiWindow.document.writeln("            const fileHandle = await window.showSaveFilePicker();");
+        hiWindow.document.writeln("            const options = {");
+        hiWindow.document.writeln("                // suggestedName: 'ppm_hours_',");
+        hiWindow.document.writeln("                types: [");
+        hiWindow.document.writeln("                    {");
+        hiWindow.document.writeln("                        description: 'Text Files',");
+        hiWindow.document.writeln("                        accept: {");
+        hiWindow.document.writeln("                            'text/plain': ['.txt'],");
+        hiWindow.document.writeln("                        },");
+        hiWindow.document.writeln("                    },");
+        hiWindow.document.writeln("                ],");
+        hiWindow.document.writeln("            };");
+        hiWindow.document.writeln("            const fileHandle = await window.showSaveFilePicker(options);");
         hiWindow.document.writeln("            const writable = await fileHandle.createWritable();");
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("            var creationDate = new Date();");
@@ -535,7 +562,6 @@
         hiWindow.document.writeln("        parseWriteFile()");
         hiWindow.document.writeln("    }");
         hiWindow.document.writeln(" ");
-        hiWindow.document.writeln(" ");
         hiWindow.document.writeln("    function readTxtFile() {");
         hiWindow.document.writeln("        task = document.querySelector('#foundTasks').value;");
         hiWindow.document.writeln("        hours = document.querySelector('#hoursAmount').value;");
@@ -543,7 +569,17 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        //reading file");
         hiWindow.document.writeln("        async function getFileHandle() {");
-        hiWindow.document.writeln("            const [fileHandle] = await window.showOpenFilePicker();");
+        hiWindow.document.writeln("            const options = {");
+        hiWindow.document.writeln("                types: [");
+        hiWindow.document.writeln("                    {");
+        hiWindow.document.writeln("                        description: 'Text Files',");
+        hiWindow.document.writeln("                        accept: {");
+        hiWindow.document.writeln("                            'text/plain': ['.txt'],");
+        hiWindow.document.writeln("                        },");
+        hiWindow.document.writeln("                    },");
+        hiWindow.document.writeln("                ],");
+        hiWindow.document.writeln("            };");
+        hiWindow.document.writeln("            const [fileHandle] = await window.showOpenFilePicker(options);");
         hiWindow.document.writeln("            return fileHandle;");
         hiWindow.document.writeln("        }");
         hiWindow.document.writeln(" ");
@@ -714,8 +750,8 @@
 
     function validateAllFields() {
         var value,
-        inputsTable = document.querySelector("#table4"),
-        inputNodes = inputsTable.querySelectorAll("input");
+            inputsTable = document.querySelector("#table4"),
+            inputNodes = inputsTable.querySelectorAll("input");
         for (var i = 0; i < inputNodes.length; i++) {
             if (typeof inputNodes[i] == "undefined" || inputNodes[i].type == "hidden") {
                 continue;
@@ -757,8 +793,8 @@
 
     function validateResults() {
         var nodeValue,
-        resultTable = document.querySelector('#table7'),
-        resultNodes = resultTable.querySelectorAll("span");
+            resultTable = document.querySelector('#table7'),
+            resultNodes = resultTable.querySelectorAll("span");
         for (var i = 0; i < resultNodes.length; i++) {
             if (typeof resultNodes[i] == "undefined") {
                 continue;
@@ -792,8 +828,8 @@
 
     function colorAllTdsInTable(tableId) {
         var tdSelectors,
-        mainTable = document.querySelector(tableId),
-        trSelectors = mainTable.querySelectorAll('tr');
+            mainTable = document.querySelector(tableId),
+            trSelectors = mainTable.querySelectorAll('tr');
 
         for (var i = 0; i < trSelectors.length; i++) {
             if (typeof trSelectors[i] == "undefined") {
@@ -865,7 +901,7 @@
 
     function saveEvent() {
         var inputsTable = document.querySelector("#table4"),
-        inputNodes = inputsTable.querySelectorAll("input");
+            inputNodes = inputsTable.querySelectorAll("input");
         for (var i = 0; i < inputNodes.length; i++) {
             if (typeof inputNodes[i] == "undefined" || inputNodes[i].type == "hidden") {
                 continue;
@@ -897,11 +933,11 @@
 
     function addMdCell(tableId) {
         var tdSelector,
-        cell,
-        spanH,
-        spanMD,
-        table = document.querySelector(tableId),
-        trSelectors = table.querySelectorAll('tr');
+            cell,
+            spanH,
+            spanMD,
+            table = document.querySelector(tableId),
+            trSelectors = table.querySelectorAll('tr');
 
         for (var i = 0; i < trSelectors.length; i++) {
             if (typeof trSelectors[i] == "undefined" || trSelectors[i].getElementsByClassName("subgroupings-left").length != 0 || trSelectors[i].getElementsByTagName("tr").length == 0) {
@@ -925,16 +961,16 @@
             cell.classList.add("h_border_onlyColumn_last", "ellipsisCell");
 
             spanMD = cell.getElementsByTagName("span")[0]
-                spanMD.classList.add("resultMD", "resultMD" + rowsTotal);
+            spanMD.classList.add("resultMD", "resultMD" + rowsTotal);
         }
     }
 
     function createTable() {
         var table = document.createElement('table'),
-        tbody = document.createElement('tbody'),
-        span = document.createElement('span'),
-        cell,
-        row;
+            tbody = document.createElement('tbody'),
+            span = document.createElement('span'),
+            cell,
+            row;
         table.width = "100%";
         table.appendChild(tbody);
 
@@ -946,8 +982,8 @@
 
     function calculateMdCell() {
         var cellH = document.getElementsByClassName("resultH"),
-        cellMD = document.getElementsByClassName("resultMD"),
-        cellHValue;
+            cellMD = document.getElementsByClassName("resultMD"),
+            cellHValue;
 
         for (var i = 0; i < rowsTotal; i++) {
             if (isZero(cellH[i].innerHTML)) {
@@ -966,7 +1002,7 @@
 
     function changeSpans() {
         var table = document.getElementById("table3")
-            var spans = table.getElementsByTagName("span");
+        var spans = table.getElementsByTagName("span");
         for (var span of spans) {
             span.textContent = span.title.split("&gt; ")[1]
         }
