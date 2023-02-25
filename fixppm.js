@@ -91,6 +91,7 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        input {");
         hiWindow.document.writeln("            background: #e8ffe5;");
+        hiWindow.document.writeln("            box-shadow: 3px 3px #b4b4b4 inset;");
         hiWindow.document.writeln("            font-size: 16px;");
         hiWindow.document.writeln("            border-radius: 15px;");
         hiWindow.document.writeln("            border-width: 0px;");
@@ -107,6 +108,7 @@
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("        select {");
         hiWindow.document.writeln("            background: #e8ffe5;");
+        hiWindow.document.writeln("            box-shadow: 3px 3px #b4b4b4 inset;");
         hiWindow.document.writeln("            font-size: 16px;");
         hiWindow.document.writeln("            border-radius: 15px;");
         hiWindow.document.writeln("            border-width: 0px;");
