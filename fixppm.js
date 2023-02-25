@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
-// @version      1.8.7
+// @version      1.8.8
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -15,22 +15,6 @@
 //forked from: https://github.com/DamianZyngier/FixPPM
 
 //search for M.Rys -> my modifications
-//1.8.7  5) write to file - write sum hours
-//1.8.7  4) bugfix for window - filter on start up
-//1.8.7  3) bugfix for window - parse numbers with , and .
-//1.8.7  2) bugfix - do not list task for which hours cannot be added: contains Project: || Misc -
-//1.8.7  1) bugfix - duplicated tasks with _duplicated
-//1.8.6  2) bugfix - remove \\r
-//1.8.6  1) Write / read file - first implementation.
-//1.8.5  4) Bugfix for removing hours.
-//1.8.5  3) Bugfix for inserting/removing hours due to empty cells.
-//1.8.5  2) Add id for custom buttons.
-//1.8.5  1) Bugfix for setting decimal separator - repaced by checking if value is equal to zero.
-//1.8.4  1) Extend insertHours() with REMOVE button.
-//1.8.3  1) Bugfix for insertHours(): hours can be inserted for task with duplicated name.
-//1.8.2  3) Button Check unused tasks.
-//1.8.2  2) insertHours() → filter tasks, select task, put hours → insert to hour table if possible.
-//1.8.2  1) validateAndColorInput() | validateResults() → if hours 0h-7.5h → set light green.
 
 (function () {
     "use strict";
@@ -50,12 +34,8 @@
 
     var publicHolidays = ["01-01", "01-06", "04-09", "04-10", "05-01", "05-03", "05-28", "06-08", "08-15", "11-01", "11-11", "12-25", "12-26"];
 
-    // May be needed to change return in case of different locale in browser.
-    // TODO - make the selection automatic
     function isZero(content) {
         return parseFloat(content) === parseFloat("0");
-        //return "0,00" // pl-PL
-        //return "0.00" // en-US
     }
 
     // M.Rys: check unused tasks

@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.8] - 2023-02-25, M.Ryś
+
+- add src for hiwindow - web template, working js code, converter, converted file ready to paste into fixppm.js.
+- fixppm.js: remove redundant lines, comments.
+
+## [1.8.7] - 2023-02-24, M.Ryś
+
+- InsertHours window: some bug fixes.
+- InsertHours window: write total hours for each task.
+- some css updates.
+
+## [1.8.6] - 2023-02-23, M.Ryś
+
+- InsertHours window: add functionality for saving hours to a text file and parsing input txt file (adding, removing hours).
+- Some bug fixes: remove tasks for which hours cannot be inserted, remove \\r during parsing input txt file.
+
+## [1.8.5] - 2023-02-22, M.Ryś
+
+- Some bug fixes: parsing empty cells, removing hours, github path.
+
+## [1.8.4] - 2023-02-21, M.Ryś
+
+- InsertHours window: add functionality for removing hours.
+
+## [1.8.3] - 2023-02-21, M.Ryś
+
+- InsertHours window: fix for adding hours for duplicated tasks.
+
+## [1.8.2] - 2023-02-19, M.Ryś
+
+- Add button check unused tasks.
+
+## [1.8.1] - 2023-02-19, M.Ryś
+
+- Add light green for partial hours.
+- New button: instertHours → create additional window for inserting working hours.
+
+## [1.8.0] - 2023-02-13
+
+- Updated list of public holidays in Poland for 2023.
+- Added new function for different locale than pl-PL.
+
 ## [1.7.1] - 2021-01-01
 
 - Updated list of public holidays in Poland for 2021.
