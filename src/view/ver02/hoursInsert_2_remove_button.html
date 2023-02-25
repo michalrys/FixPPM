@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Hours</title>
+    <style>
+        body {
+            background: linear-gradient(0.25turn, #e5e5e5, #b6b6b6, #e5e5e5);
+        }
+
+        label {
+            color: #939393;
+        }
+
+        input {
+            background: #e8ffe5;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 600px;
+            height: 32px;
+        }
+
+        input#hoursAmount {
+            width: 50px;
+        }
+
+        select {
+            background: #e8ffe5;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 620px;
+            height: 40px;
+        }
+
+        input#insertButton {
+            background: #9cff62;
+            box-shadow: 3px 3px 0 #000000;
+            width: 150px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 50px;
+        }
+
+        input#removeButton {
+            background: #ff6262;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 20px;
+        }
+
+        input#insertButton:active {
+            background: #63a83b;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+         }
+
+        input#insertButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#removeButton:active {
+            background: #ad3f3f;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+         }
+
+        input#removeButton:hover {
+            border-color: #0014ff;
+        }
+
+        div#status {
+            font-size: 16px;
+            color: #939393;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        b {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <label for="filterTasks">Filter: </label>
+    <input type="text" id="filterTasks" value="CAPEX analysis bug" onkeyup="findTasksFilterAndSetToMenu()">
+    <br>
+    <label for="foundTasks">Task: </label>
+    <select id="foundTasks">
+        <option id="foundTask-1">Task: Analysis and Review (Business initiatives (CAPEX))</option>
+        <option id="foundTask-2">Task: Analysis and Review (Small medium features (CAPEX))</option>
+        <option id="foundTask-3">Task: Bug Fixing and Rework (Business initiatives (CAPEX))</option>
+    </select>
+    <br><label for="hoursAmount">Hours:</label>
+    <input type="text" id="hoursAmount" value="40" size="100px">
+    <input type="button" id="insertButton" value="INSERT" onclick="insertHours()">
+    <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()">
+    <br>
+    <div id="status">Status: <b id="statusMessage">waiting for pressing INSERT button</b></div>
+</form>
+<script>
+    let foundFiltered = [];
+    let task = "";
+    let hours = "";
+    const status = document.querySelector('#statusMessage');
+
+    function findTasksFilterAndSetToMenu() {
+        //clear task list
+        const foundTasks = document.querySelector('#foundTasks');
+        while (foundTasks.firstChild) {
+            foundTasks.removeChild(foundTasks.lastChild);
+        }
+
+        //TODO: find tasks
+        //found values from other macro
+        let found = [];
+        let foundId = new Map();
+        let tempId = 0;
+        found.push("1) Task: Analysis and Review (Business initiatives (CAPEX))");
+        foundId.set("1) Task: Analysis and Review (Business initiatives (CAPEX))", ++tempId);
+        found.push("2) Task: Analysis and Review (Small medium features (CAPEX))");
+        foundId.set("2) Task: Analysis and Review (Small medium features (CAPEX))", ++tempId);
+        found.push("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))");
+        foundId.set("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))", ++tempId);
+        found.push("4) Task: Analysis and Review (Small medium features (OPEX))");
+        foundId.set("4) Task: Analysis and Review (Small medium features (OPEX))", ++tempId);
+        found.push("5) \tTask:\n my\n");
+        foundId.set("5) \tTask:\n my\n", ++tempId);
+
+        //filter
+        let filter = document.querySelector('#filterTasks').value;
+        filter = filter.toLowerCase();
+        let words = filter.split(" ");
+
+        foundFiltered = [];
+        found.forEach(task => {
+            let taskLowerCase = task.toLowerCase();
+            let taskShallBeAdded = true;
+            words.forEach(word => {
+                if (taskLowerCase.search(word) === -1 && word !== "") {
+                    taskShallBeAdded = false;
+                }
+            });
+            if (taskShallBeAdded) {
+                foundFiltered.push(task);
+            }
+        });
+
+
+        let i = 0;
+        foundFiltered.forEach(found => {
+            let newOption = new Option(found);
+            i++;
+            let id = "foundTask-" + i;
+            newOption.setAttribute('value', found);
+            newOption.setAttribute('id', id);
+            foundTasks.add(newOption);
+        })
+
+
+    }
+
+    function insertHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were inserted to " + task;
+        console.log("\n");
+        console.log("foundFiltered=" + foundFiltered);
+        console.log("task=" + task);
+        console.log("hours=" + hours);
+    }
+
+    function removeHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were removed from " + task;
+        console.log("\n");
+        console.log("foundFiltered=" + foundFiltered);
+        console.log("task=" + task);
+        console.log("hours=" + hours);
+    }
+</script>
+</body>
+</html>
