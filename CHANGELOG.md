@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.8.8] - 2023-02-25, M.Ryś
 
 - add src for hiwindow - web template, working js code, converter, converted file ready to paste into fixppm.js.
-- fixppm.js: remove redundant lines, comments.
+- fixppm.js: remove redundant lines, comments, console.logs.
 
 ## [1.8.7] - 2023-02-24, M.Ryś
 
