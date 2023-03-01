@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Hours</title>
+    <style>
+        body {
+            background: linear-gradient(0.25turn, #e5e5e5, #b6b6b6, #e5e5e5);
+        }
+
+        label {
+            color: #939393;
+        }
+
+        input {
+            background: #e8ffe5;
+            box-shadow: 3px 3px #b4b4b4 inset;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 600px;
+            height: 32px;
+        }
+
+        input#hoursAmount {
+            width: 50px;
+        }
+
+        select {
+            background: #e8ffe5;
+            box-shadow: 3px 3px #b4b4b4 inset;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 625px;
+            height: 40px;
+        }
+
+        input#insertButton {
+            background: #9cff62;
+            box-shadow: 3px 3px 0 #000000;
+            width: 120px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 40px;
+        }
+
+        input#removeButton {
+            background: #ff6262;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 15px;
+        }
+
+        input#insertButton:active {
+            background: #63a83b;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#insertButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#removeButton:active {
+            background: #ad3f3f;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#removeButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#removeButton:active {
+            background: #ad3f3f;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#removeButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#convertJiraReportButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #07e3da;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 30px;
+        }
+
+        input#convertJiraReportButton:active {
+            background: #0d9492;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#convertJiraReportButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#writeToTxtButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #ffe786;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 10px;
+        }
+
+        input#writeToTxtButton:active {
+            background: #bdaa64;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#writeToTxtButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#readTxtButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #c987ff;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 5px;
+        }
+
+        input#readTxtButton:active {
+            background: #9460bd;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#readTxtButton:hover {
+            border-color: #0014ff;
+        }
+
+        div#statusMessage {
+            font-size: 16px;
+            color: #939393;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td>
+                <label for="filterTasks">Filter: </label>
+            </td>
+            <td>
+                <input type="text" id="filterTasks" value="CAPEX analysis bug" onkeyup="findTasksFilterAndSetToMenu()" onmouseover="filterTasksInfo()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="foundTasks">Task: </label>
+            </td>
+            <td>
+                <select id="foundTasks" onmouseover="foundTasksInfo()">
+                    <option id="foundTask-1">Task: Analysis and Review (Business initiatives (CAPEX))</option>
+                    <option id="foundTask-2">Task: Analysis and Review (Small medium features (CAPEX))</option>
+                    <option id="foundTask-3">Task: Bug Fixing and Rework (Business initiatives (CAPEX))</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="hoursAmount">Hours:</label>
+            </td>
+            <td>
+                <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
+                <input type="button" id="insertButton" value="INSERT" onclick="insertHours()" onmouseover="insertButtonInfo()">
+                <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()" onmouseover="removeButtonInfo()">
+                <input type="button" id="convertJiraReportButton" value="convJira" onclick="convertJiraReport()" onmouseover="convertJiraReportInfo()">
+                <input type="button" id="writeToTxtButton" value="writeTXT" onclick="writeToTxtFile()" onmouseover="writeToTxtButtonInfo()">
+                <input type="button" id="readTxtButton" value="parseTXT" onclick="readTxtFile()" onmouseover="readTxtButtonInfo()">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="statusMessage">Waiting for pressing some button...</div>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    let foundFiltered = [];
+    let task = "";
+    let hours = "";
+    const status = document.querySelector('#statusMessage');
+
+    function filterTasksInfo() {
+        status.textContent = "Filter ? just start writing, tasks will be filtered.";
+    }
+    function hoursAmountInfo() {
+        status.textContent = "Hours ? write here amount of h for selected task. Both , and . are supported.";
+    }
+    function foundTasksInfo() {
+        status.textContent = "Task ? select filtered one.";
+    }
+    function insertButtonInfo() {
+        status.textContent = "INSERT ? try to add given hours into selected task, if it is possible, starting from 1st day.";
+    }
+    function removeButtonInfo() {
+        status.textContent = "REMOVE ? try to substruct given hours from selected task, if it is posiible, starting from last day.";
+    }
+    function convertJiraReportInfo() {
+        status.textContent = "convJira ? read xls report from Jira and covert to input txt file.";
+    }
+    function writeToTxtButtonInfo() {
+        status.textContent = "writeTXT ? write all filtered tasks to a txt file, including total hours.";
+    }
+    function readTxtButtonInfo() {
+        status.textContent = "parseTXT ? read txt file and try to add/remove hours for each task.";
+    }
+
+    function findTasksFilterAndSetToMenu() {
+        //clear task list
+        const foundTasks = document.querySelector('#foundTasks');
+        while (foundTasks.firstChild) {
+            foundTasks.removeChild(foundTasks.lastChild);
+        }
+
+        //found values from other macro
+        let found = [];
+        let foundId = new Map();
+        let tempId = 0;
+        found.push("1) Task: Analysis and Review (Business initiatives (CAPEX))");
+        foundId.set("1) Task: Analysis and Review (Business initiatives (CAPEX))", ++tempId);
+        found.push("2) Task: Analysis and Review (Small medium features (CAPEX))");
+        foundId.set("2) Task: Analysis and Review (Small medium features (CAPEX))", ++tempId);
+        found.push("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))");
+        foundId.set("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))", ++tempId);
+        found.push("4) Task: Analysis and Review (Small medium features (OPEX))");
+        foundId.set("4) Task: Analysis and Review (Small medium features (OPEX))", ++tempId);
+        found.push("5) \tTask:\n my\n");
+        foundId.set("5) \tTask:\n my\n", ++tempId);
+
+        //filter
+        let filter = document.querySelector('#filterTasks').value;
+        filter = filter.toLowerCase();
+        let words = filter.split(" ");
+
+        foundFiltered = [];
+        found.forEach(task => {
+            let taskLowerCase = task.toLowerCase();
+            let taskShallBeAdded = true;
+            words.forEach(word => {
+                if (taskLowerCase.search(word) === -1 && word !== "") {
+                    taskShallBeAdded = false;
+                }
+            });
+            if (taskShallBeAdded) {
+                foundFiltered.push(task);
+            }
+        });
+
+
+        let i = 0;
+        foundFiltered.forEach(found => {
+            let newOption = new Option(found);
+            i++;
+            let id = "foundTask-" + i;
+            newOption.setAttribute('value', found);
+            newOption.setAttribute('id', id);
+            foundTasks.add(newOption);
+        })
+
+
+    }
+
+    function insertHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were inserted to " + task;
+        console.log("----------- INSERT HOURS ---------");
+        console.log("\tfoundFiltered=" + foundFiltered);
+        console.log("\ttask=" + task);
+        console.log("\thours=" + hours);
+        console.log("----------- INSERT HOURS ---------");
+    }
+
+    function removeHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were removed from " + task;
+        console.log("----------- REMOVE HOURS ---------");
+        console.log("\tfoundFiltered=" + foundFiltered);
+        console.log("\ttask=" + task);
+        console.log("\thours=" + hours);
+        console.log("----------- REMOVE HOURS ---------");
+    }
+
+    function writeToTxtFile() {
+        let fondTasks = document.querySelector('#foundTasks').children
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = "Filtered tasks were written to a txt file.";
+
+        // open file in order to write a file & what to write
+        async function writeFile() {
+            const options = {
+                // suggestedName: 'ppm_hours_',
+                types: [
+                    {
+                        description: 'Text Files',
+                        accept: {
+                            'text/plain': ['.txt'],
+                        },
+                    },
+                ],
+            };
+            const fileHandle = await window.showSaveFilePicker(options);
+            const writable = await fileHandle.createWritable();
+
+            var creationDate = new Date();
+            var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+            await writable.write("# Created in " + creationDateFormatted + ".\n");
+            await writable.write("#------------------------------------------------------------------------------------\n");
+            await writable.write("#<-- use this for comments.\n");
+            await writable.write("# Content:\n");
+            await writable.write("# List of task names, below each current total hours.\n");
+            await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\n");
+            await writable.write("#     |====1) My great task\n");
+            await writable.write("#     |12\n");
+            await writable.write("#     |-2\n");
+            await writable.write("#     |+6\n");
+            await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\n");
+            await writable.write("# Current hours are not required, can be deleted from this file.\n");
+            await writable.write("#------------------------------------------------------------------------------------\n");
+
+            for (let i = 0; i < fondTasks.length; i++) {
+                let foundTask = fondTasks[i].value;
+                await writable.write("====" + foundTask + "\n");
+                await writable.write(16 + "\n");
+            }
+            await writable.close();
+        }
+
+        // writting a file
+        async function parseWriteFile() {
+            await writeFile();
+        }
+
+        parseWriteFile()
+    }
+
+    function readTxtFile() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = "Parsing given txt file.";
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Text Files',
+                        accept: {
+                            'text/plain': ['.txt'],
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            const fileHandle = await getFileHandle();
+            const file = await fileHandle.getFile();
+            const content = await file.text();
+            return content;
+        }
+
+        // parsing read txt file
+        async function parseReadTxt() {
+            const content = await readFile();
+            // console.log(content);
+
+            let lines = content.split("\n")
+            let currentTask;
+            let hours;
+            let increase = false;
+            let decrease = false;
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                console.log("LINE|" + line);
+                if (line.length === 0 || line === null) {
+                    continue;
+                }
+                let firstLetter = line[0];
+                if (firstLetter === "#") {
+                    continue;
+                }
+                if (firstLetter === "=") {
+                    increase = false;
+                    decrease = false;
+                    hours = parseFloat("0");
+                    currentTask = line.split("====")[1];
+                    console.log("\t-->TASK|" + currentTask);
+                }
+                if (firstLetter === "+") {
+                    increase = true;
+                    hours = parseFloat(line.split("+")[1]);
+                    if (hours === null || hours === parseFloat("0")) {
+                        continue;
+                    }
+                    let foundTaskMenu = document.querySelector('#foundTasks');
+                    let foundTaskElements = foundTaskMenu.children;
+                    for (let i = 0; i < foundTaskElements.length; i++) {
+                        let foundTask = foundTaskElements[i].value;
+                        if (currentTask === foundTask) {
+                            document.querySelector('#foundTasks').value = foundTask;
+                            document.querySelector('#hoursAmount').value = hours;
+                            document.querySelector('#insertButton').onclick();
+                            console.log("\t--> +  |" + hours);
+                            break;
+                        }
+                    }
+                }
+                if (firstLetter === "-") {
+                    increase = true;
+                    hours = parseFloat(line.split("-")[1]);
+                    if (hours === null || hours === parseFloat("0")) {
+                        continue;
+                    }
+                    let foundTaskMenu = document.querySelector('#foundTasks');
+                    let foundTaskElements = foundTaskMenu.children;
+                    for (let i = 0; i < foundTaskElements.length; i++) {
+                        let foundTask = foundTaskElements[i].value;
+                        if (currentTask === foundTask) {
+                            document.querySelector('#foundTasks').value = foundTask;
+                            document.querySelector('#hoursAmount').value = hours;
+                            document.querySelector('#removeButton').onclick();
+                            console.log("\t--> -  |" + hours);
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        parseReadTxt();
+    }
+
+    function convertJiraReport() {
+        console.log("Convert xml")
+    }
+
+</script>
+</body>
+</html>
