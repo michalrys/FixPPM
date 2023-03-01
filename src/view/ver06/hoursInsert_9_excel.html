@@ -558,14 +558,15 @@
                     const sheet = workbook.Sheets[sheetName];
                     // convert xls sheet to JSON
                     let sheetContent = XLSX.utils.sheet_to_json(sheet);
-                    // parseSheetContent(sheetContent);
 
+                    // parseSheetContent(sheetContent);
                     if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
                         console.log("There is no content for sheet :-(");
                         return;
                     }
                     console.log(sheetContent);
                     let jiraTaskHours = new Map();
+                    let resultOfParsing = "";
                     for (let i = 0; i < sheetContent.length; i++) {
                         let row = sheetContent[i];
                         console.log("row " + i + "→" + row);
@@ -593,17 +594,94 @@
 
                         jiraTaskHours.set(taskName, taskHours);
 
+                        // resultOfParsing
+                        document.querySelector('#filterTasks').value = taskName;
+                        document.querySelector('#hoursAmount').value = taskHours;
+                        document.querySelector('#filterTasks').onkeyup();
+                        document.querySelector('#foundTasks');
+
+                        let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                        if (foundTasksAmount > 0) {
+                            for (let k = 0; k < foundTasksAmount; k++) {
+                                resultOfParsing = resultOfParsing + "====" + document.querySelector('#foundTasks').children[k].value + "\n";
+                            }
+                            resultOfParsing = resultOfParsing + taskHours + "\n"
+                        }
                     }
 
                     if (jiraTaskHours.size === 0) {
                         return;
                     }
-                    
+
+                    console.log("resultOfParsing=");
+                    console.log(resultOfParsing);
+
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+                    // let taskName = "small feat";
+                    // let taskHours = parseFloat(40);
+                    // let tasksFound = "";
+                    //
+                    // document.querySelector('#filterTasks').value = taskName;
+                    // document.querySelector('#hoursAmount').value = taskHours;
+                    // document.querySelector('#filterTasks').onkeyup();
+                    // document.querySelector('#foundTasks');
+                    //
+                    // let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                    // for (let i = 0; i < foundTasksAmount; i++) {
+                    //     tasksFound = tasksFound + "====" + document.querySelector('#foundTasks').children[i].value + "\n";
+                    // }
+                    // console.log("Shall write to a file:");
+                    // console.log(tasksFound);
+                    // console.log(taskHours);
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+
+                    // open file in order to write a file & what to write
+                    async function writeFile() {
+                        const options = {
+                            // suggestedName: 'ppm_hours_',
+                            types: [
+                                {
+                                    description: 'Text Files',
+                                    accept: {
+                                        'text/plain': ['.txt'],
+                                    },
+                                },
+                            ],
+                        };
+                        const fileHandle = await window.showSaveFilePicker(options);
+                        const writable = await fileHandle.createWritable();
+
+                        var creationDate = new Date();
+                        var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                            + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+                        await writable.write("# Created in " + creationDateFormatted + ".\n");
+                        await writable.write("# Converted from Jira report file\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write("#<-- use this for comments.\n");
+                        await writable.write("# Content:\n");
+                        await writable.write("# List of task names, below each current total hours.\n");
+                        await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\n");
+                        await writable.write("#     |====1) My great task\n");
+                        await writable.write("#     |12\n");
+                        await writable.write("#     |-2\n");
+                        await writable.write("#     |+6\n");
+                        await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\n");
+                        await writable.write("# Current hours are not required, can be deleted from this file.\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write(resultOfParsing);
+                        await writable.close();
+                    }
+
+                    // writting a file
+                    async function parseWriteFile() {
+                        await writeFile();
+                    }
+
+                    parseWriteFile()
                 }
             )
             fileReader.readAsBinaryString(file);
         }
-
 
 
         async function runReadingXmlFile() {
