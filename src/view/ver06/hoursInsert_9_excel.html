@@ -204,7 +204,8 @@
                 <label for="filterTasks">Filter: </label>
             </td>
             <td>
-                <input type="text" id="filterTasks" value="CAPEX analysis bug" onkeyup="findTasksFilterAndSetToMenu()" onmouseover="filterTasksInfo()">
+                <input type="text" id="filterTasks" value="CAPEX analysis bug" onkeyup="findTasksFilterAndSetToMenu()"
+                       onmouseover="filterTasksInfo()">
             </td>
         </tr>
         <tr>
@@ -225,11 +226,16 @@
             </td>
             <td>
                 <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
-                <input type="button" id="insertButton" value="INSERT" onclick="insertHours()" onmouseover="insertButtonInfo()">
-                <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()" onmouseover="removeButtonInfo()">
-                <input type="button" id="convertJiraReportButton" value="convJira" onclick="convertJiraReport()" onmouseover="convertJiraReportInfo()">
-                <input type="button" id="writeToTxtButton" value="writeTXT" onclick="writeToTxtFile()" onmouseover="writeToTxtButtonInfo()">
-                <input type="button" id="readTxtButton" value="parseTXT" onclick="readTxtFile()" onmouseover="readTxtButtonInfo()">
+                <input type="button" id="insertButton" value="INSERT" onclick="insertHours()"
+                       onmouseover="insertButtonInfo()">
+                <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()"
+                       onmouseover="removeButtonInfo()">
+                <input type="button" id="convertJiraReportButton" value="convJira" onclick="convertJiraReport()"
+                       onmouseover="convertJiraReportInfo()">
+                <input type="button" id="writeToTxtButton" value="writeTXT" onclick="writeToTxtFile()"
+                       onmouseover="writeToTxtButtonInfo()">
+                <input type="button" id="readTxtButton" value="parseTXT" onclick="readTxtFile()"
+                       onmouseover="readTxtButtonInfo()">
             </td>
         </tr>
         <tr>
@@ -240,6 +246,9 @@
         </tr>
     </table>
 </form>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script>
     let foundFiltered = [];
     let task = "";
@@ -249,24 +258,31 @@
     function filterTasksInfo() {
         status.textContent = "Filter ? just start writing, tasks will be filtered.";
     }
+
     function hoursAmountInfo() {
         status.textContent = "Hours ? write here amount of h for selected task. Both , and . are supported.";
     }
+
     function foundTasksInfo() {
         status.textContent = "Task ? select filtered one.";
     }
+
     function insertButtonInfo() {
         status.textContent = "INSERT ? try to add given hours into selected task, if it is possible, starting from 1st day.";
     }
+
     function removeButtonInfo() {
         status.textContent = "REMOVE ? try to substruct given hours from selected task, if it is posiible, starting from last day.";
     }
+
     function convertJiraReportInfo() {
         status.textContent = "convJira ? read xls report from Jira and covert to input txt file.";
     }
+
     function writeToTxtButtonInfo() {
         status.textContent = "writeTXT ? write all filtered tasks to a txt file, including total hours.";
     }
+
     function readTxtButtonInfo() {
         status.textContent = "parseTXT ? read txt file and try to add/remove hours for each task.";
     }
@@ -504,6 +520,98 @@
 
     function convertJiraReport() {
         console.log("Convert xml")
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Excel files',
+                        accept: {
+                            'application/vnd.ms-excel': ['.xls']
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            let content = "";
+            const fileHandle = await getFileHandle();
+            const permissionGranted = await fileHandle.requestPermission();
+            if (!permissionGranted) {
+                console.error('Permission to access file was denied');
+                return;
+            }
+            const file = await fileHandle.getFile();
+            //const content = await file.text();
+            const fileReader = new FileReader();
+            fileReader.addEventListener('load', (event) => {
+                    const binaryString = event.target.result;
+                    // Use a library like SheetJS or XLSX to parse the binary string
+                    //console.log(binaryString);
+                    const workbook = XLSX.read(binaryString, {type: 'binary'});
+                    // read first sheet only
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+                    // convert xls sheet to JSON
+                    let sheetContent = XLSX.utils.sheet_to_json(sheet);
+                    // parseSheetContent(sheetContent);
+
+                    if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
+                        console.log("There is no content for sheet :-(");
+                        return;
+                    }
+                    console.log(sheetContent);
+                    let jiraTaskHours = new Map();
+                    for (let i = 0; i < sheetContent.length; i++) {
+                        let row = sheetContent[i];
+                        console.log("row " + i + "→" + row);
+                        let taskName = "";
+                        let taskHours = parseFloat(0);
+                        for (var key in row) {
+                            var value = row[key];
+                            // console.log("key=" + key + ", value=" + value);
+                            if (key.search(("PPM Project")) === 0) {
+                                taskName = value;
+                            } else if (key.search(("Total PPM Project")) === 0) {
+                                taskHours = parseFloat(value);
+                            }
+                        }
+                        if (taskName === "Total") {
+                            continue;
+                        }
+                        if (taskName.match(" - ") === -1) {
+                            continue;
+                        }
+
+                        taskName = taskName.replaceAll("\t", "").split(" - ").slice(-1);   //<<<<<<<< update here \t to \\t
+                        console.log("\ttask=" + taskName);
+                        console.log("\thours=" + taskHours);
+
+                        jiraTaskHours.set(taskName, taskHours);
+
+                    }
+
+                    if (jiraTaskHours.size === 0) {
+                        return;
+                    }
+                    
+                }
+            )
+            fileReader.readAsBinaryString(file);
+        }
+
+
+
+        async function runReadingXmlFile() {
+            console.log("reading file");
+            await readFile();
+        }
+
+        runReadingXmlFile();
     }
 
 </script>
