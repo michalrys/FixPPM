@@ -606,6 +606,8 @@
                                 resultOfParsing = resultOfParsing + "====" + document.querySelector('#foundTasks').children[k].value + "\n";
                             }
                             resultOfParsing = resultOfParsing + taskHours + "\n"
+                        } else {
+                            resultOfParsing = resultOfParsing + "#task not found: " + taskName + " -> " + taskHours + "\n";
                         }
                     }
 

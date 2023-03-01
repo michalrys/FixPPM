@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.9] - 2023-03-01, M.Ryś
+
+- InsertHours window: add convJira - conversion Jira team hours report xls to input hours txt.
+
 ## [1.8.8] - 2023-02-25, M.Ryś
 
 - add src for hiwindow - web template, working js code, converter, converted file ready to paste into fixppm.js.

@@ -34,6 +34,9 @@ Open new window and do
 * write amount of hours
 * insert hours if possible, starting from the first day in the hours table
 * remove hours if possible, starting from the last day in the hours table
+* convert Jira team hours report to input txt file
+* write to txt - write all filtered tasks to a txt file, including total hours
+* parse txt - read txt file and try to add/remove hours for each task
 
 ### Button "Check unused tasks"
 
