@@ -45,11 +45,11 @@
         input#insertButton {
             background: #9cff62;
             box-shadow: 3px 3px 0 #000000;
-            width: 150px;
+            width: 120px;
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 50px;
+            margin-left: 40px;
         }
 
         input#removeButton {
@@ -58,11 +58,11 @@
             transition: all .15s linear 0s;
             position: relative;
             display: inline-block;
-            width: 150px;
+            width: 120px;
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 20px;
+            margin-left: 15px;
         }
 
         input#insertButton:active {
@@ -104,6 +104,34 @@
             border-color: #0014ff;
         }
 
+        input#convertJiraReportButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #07e3da;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 30px;
+        }
+
+        input#convertJiraReportButton:active {
+            background: #0d9492;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#convertJiraReportButton:hover {
+            border-color: #0014ff;
+        }
+
         input#writeToTxtButton {
             font-size: 10px;
             font-weight: bold;
@@ -116,7 +144,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 20px;
+            margin-left: 10px;
         }
 
         input#writeToTxtButton:active {
@@ -131,7 +159,6 @@
         input#writeToTxtButton:hover {
             border-color: #0014ff;
         }
-
 
         input#readTxtButton {
             font-size: 10px;
@@ -197,6 +224,7 @@
                 <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
                 <input type="button" id="insertButton" value="INSERT" onclick="insertHours()" onmouseover="insertButtonInfo()">
                 <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()" onmouseover="removeButtonInfo()">
+                <input type="button" id="convertJiraReportButton" value="convJira" onclick="convertJiraReport()" onmouseover="convertJiraReportInfo()">
                 <input type="button" id="writeToTxtButton" value="writeTXT" onclick="writeToTxtFile()" onmouseover="writeToTxtButtonInfo()">
                 <input type="button" id="readTxtButton" value="parseTXT" onclick="readTxtFile()" onmouseover="readTxtButtonInfo()">
             </td>
@@ -209,6 +237,7 @@
         </tr>
     </table>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script>
     let foundFiltered = [];
     let foundId = new Map();
@@ -232,6 +261,9 @@
     }
     function removeButtonInfo() {
         status.textContent = "REMOVE ? try to substruct given hours from selected task, if it is posiible, starting from last day.";
+    }
+    function convertJiraReportInfo() {
+        status.textContent = "convJira ? read xls report from Jira and covert to input txt file.";
     }
     function writeToTxtButtonInfo() {
         status.textContent = "writeTXT ? write all filtered tasks to a txt file, including total hours.";
@@ -617,6 +649,180 @@
         }
 
         parseReadTxt();
+    }
+
+    function convertJiraReport() {
+        console.log("Convert xml")
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Excel files',
+                        accept: {
+                            'application/vnd.ms-excel': ['.xls']
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            let content = "";
+            const fileHandle = await getFileHandle();
+            const permissionGranted = await fileHandle.requestPermission();
+            if (!permissionGranted) {
+                console.error('Permission to access file was denied');
+                return;
+            }
+            const file = await fileHandle.getFile();
+            //const content = await file.text();
+            const fileReader = new FileReader();
+            fileReader.addEventListener('load', (event) => {
+                    const binaryString = event.target.result;
+                    // Use a library like SheetJS or XLSX to parse the binary string
+                    //console.log(binaryString);
+                    const workbook = XLSX.read(binaryString, {type: 'binary'});
+                    // read first sheet only
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+                    // convert xls sheet to JSON
+                    let sheetContent = XLSX.utils.sheet_to_json(sheet);
+
+                    // parseSheetContent(sheetContent);
+                    if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
+                        console.log("There is no content for sheet :-(");
+                        return;
+                    }
+                    console.log(sheetContent);
+                    let jiraTaskHours = new Map();
+                    let resultOfParsing = "";
+                    for (let i = 0; i < sheetContent.length; i++) {
+                        let row = sheetContent[i];
+                        console.log("row " + i + "→" + row);
+                        let taskName = "";
+                        let taskHours = parseFloat(0);
+                        for (var key in row) {
+                            var value = row[key];
+                            // console.log("key=" + key + ", value=" + value);
+                            if (key.search(("PPM Project")) === 0) {
+                                taskName = value;
+                            } else if (key.search(("Total PPM Project")) === 0) {
+                                taskHours = parseFloat(value);
+                            }
+                        }
+                        if (taskName === "Total") {
+                            continue;
+                        }
+                        if (taskName.match(" - ") === -1) {
+                            continue;
+                        }
+
+                        taskName = taskName.replaceAll("\\t", "").split(" - ").slice(-1);   //<<<<<<<< update here
+                        console.log("task=" + taskName);
+                        console.log("hours=" + taskHours);
+
+                        jiraTaskHours.set(taskName, taskHours);
+
+                        // resultOfParsing
+                        document.querySelector('#filterTasks').value = taskName;
+                        document.querySelector('#hoursAmount').value = taskHours;
+                        document.querySelector('#filterTasks').onkeyup();
+                        document.querySelector('#foundTasks');
+
+                        let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                        if (foundTasksAmount > 0) {
+                            for (let k = 0; k < foundTasksAmount; k++) {
+                                resultOfParsing = resultOfParsing + "====" + document.querySelector('#foundTasks').children[k].value + "\\n";
+                            }
+                            resultOfParsing = resultOfParsing + taskHours + "\\n"
+                        }
+                    }
+
+                    if (jiraTaskHours.size === 0) {
+                        return;
+                    }
+
+                    console.log("resultOfParsing=");
+                    console.log(resultOfParsing);
+
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+                    // let taskName = "small feat";
+                    // let taskHours = parseFloat(40);
+                    // let tasksFound = "";
+                    //
+                    // document.querySelector('#filterTasks').value = taskName;
+                    // document.querySelector('#hoursAmount').value = taskHours;
+                    // document.querySelector('#filterTasks').onkeyup();
+                    // document.querySelector('#foundTasks');
+                    //
+                    // let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                    // for (let i = 0; i < foundTasksAmount; i++) {
+                    //     tasksFound = tasksFound + "====" + document.querySelector('#foundTasks').children[i].value + "\\n";
+                    // }
+                    // console.log("Shall write to a file:");
+                    // console.log(tasksFound);
+                    // console.log(taskHours);
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+
+                    // open file in order to write a file & what to write
+                    async function writeFile() {
+                        const options = {
+                            // suggestedName: 'ppm_hours_',
+                            types: [
+                                {
+                                    description: 'Text Files',
+                                    accept: {
+                                        'text/plain': ['.txt'],
+                                    },
+                                },
+                            ],
+                        };
+                        const fileHandle = await window.showSaveFilePicker(options);
+                        const writable = await fileHandle.createWritable();
+
+                        var creationDate = new Date();
+                        var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                            + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+                        await writable.write("# Created in " + creationDateFormatted + ".\\n");
+                        await writable.write("# Converted from Jira report file\\n");
+                        await writable.write("#------------------------------------------------------------------------------------\\n");
+                        await writable.write("#<-- use this for comments.\\n");
+                        await writable.write("# Content:\\n");
+                        await writable.write("# List of task names, below each current total hours.\\n");
+                        await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\\n");
+                        await writable.write("#     |====1) My great task\\n");
+                        await writable.write("#     |12\\n");
+                        await writable.write("#     |-2\\n");
+                        await writable.write("#     |+6\\n");
+                        await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\\n");
+                        await writable.write("# Current hours are not required, can be deleted from this file.\\n");
+                        await writable.write("#------------------------------------------------------------------------------------\\n");
+                        await writable.write(resultOfParsing);
+                        await writable.close();
+                    }
+
+                    // writting a file
+                    async function parseWriteFile() {
+                        await writeFile();
+                    }
+
+                    parseWriteFile()
+                }
+            )
+            fileReader.readAsBinaryString(file);
+        }
+
+
+        async function runReadingXmlFile() {
+            console.log("reading file");
+            await readFile();
+        }
+
+        runReadingXmlFile();
     }
 
 </script>
