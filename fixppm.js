@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
-// @version      1.8.9
+// @version      1.8.10
 // @description  Button Check unused tasks.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -1249,7 +1249,9 @@
         var table = document.getElementById("table3")
         var spans = table.getElementsByTagName("span");
         for (var span of spans) {
-            span.textContent = span.title.split("&gt; ")[1]
+            if (!span.title.toLowerCase().includes("asset")){
+                span.textContent = span.title.split("&gt; ")[1]
+            }
         }
     }
 
