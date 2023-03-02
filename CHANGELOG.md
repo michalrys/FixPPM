@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Update asset fix in changeSpans().
 - InsertHours window: bugfix for asset parsing.
+- InsertHours window: fix css style for size and scroll.
 
 ## [1.8.9] - 2023-03-01, M.Ryś
 
