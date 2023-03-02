@@ -380,7 +380,9 @@
         hiWindow.document.writeln("            let taskCell = tasksRows.children[i];");
         hiWindow.document.writeln(" ");
         hiWindow.document.writeln("            let taskName = taskCell.children[1].textContent.replaceAll(\"\\n\", \"\").replaceAll(\"\\t\", \"\");");
-        hiWindow.document.writeln("            if (taskName.includes(\"Project:\") || taskName.includes(\"Misc -\")) {");
+        hiWindow.document.writeln("            if (taskName.includes(\"Project:\")");
+        hiWindow.document.writeln("                || taskName.includes(\"Misc -\")");
+        hiWindow.document.writeln("                || (taskName.includes(\"Asset\") && taskName.length <= 6)) {");
         hiWindow.document.writeln("                continue;");
         hiWindow.document.writeln("            }");
         hiWindow.document.writeln("            iFound = iFound + 1;");

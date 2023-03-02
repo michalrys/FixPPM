@@ -21,14 +21,15 @@ function insertHours() {
     }
 
     console.log(foundId);
-    console.log(foundId.get(found[4]));
+    console.log(foundId.get(found[4]));  //52 = asset
     //find tasks
 
     //filter task
     console.log("OPEN WINDOWS, select task, write amount of hours, insert them.");
     // ******** put macro here : findTasksFilterAndSetToMenu() ************
     // ******** put macro here : insertHours() - content is below ************
-    let task = '\tTask: Development (Baby Waltz)' //example
+    // let task = '\tTask: Development (Baby Waltz)' //example
+    let task = '\tReq: 442333 (A1147 - CSP OC - BAU - Asset)' //example
     let hours = parseFloat(30);
     let taskId = foundId.get(task);
     console.log("INSERT DATA: " + task + ", id=" + taskId + ", hours=" + hours);  //'5) \tTask: Development (Baby Waltz)\n'

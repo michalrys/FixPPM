@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.8.10] - 2023-03-02, M.Ryś
 
 - Update asset fix in changeSpans().
+- InsertHours window: bugfix for asset parsing.
 
 ## [1.8.9] - 2023-03-01, M.Ryś
 

@@ -303,7 +303,9 @@
             let taskCell = tasksRows.children[i];
 
             let taskName = taskCell.children[1].textContent.replaceAll("\\n", "").replaceAll("\\t", "");
-            if (taskName.includes("Project:") || taskName.includes("Misc -")) {
+            if (taskName.includes("Project:")
+                || taskName.includes("Misc -")
+                || (taskName.includes("Asset") && taskName.length <= 6)) {
                 continue;
             }
             iFound = iFound + 1;
