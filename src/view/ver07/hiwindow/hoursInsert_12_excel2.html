@@ -914,7 +914,9 @@
             //const content = await file.text();
             const fileReader = new FileReader();
             fileReader.addEventListener('load', (event) => {
+                const commentOffset = 6;
                     function updateHoursInMainOrInSubtask(currentDescriptionInDetails, idMain, resultsFound, foundTasksForCurrent) {
+                        const commentOffset = 6;
                         // check if it is subtask or not -> add
                         //"<Bug Fixing and Rework> dfanalysis is <asdf asdf >".split(/(<[a-zA-Z 0-9]*>)/)
                         //"nothing important".split(/(<[a-zA-Z 0-9]*>)/)
@@ -937,10 +939,13 @@
                                 if (subtask.name.includes(descriptionSubtask)) {
                                     console.log("=-=-=");
                                     console.log("   added to subtask: " + subtask.name);
+                                    let timeSize = (currentTimeReportedInDetails + "").length;
+                                    let offset = commentOffset - timeSize > 0 ? commentOffset - timeSize : 1;
                                     subtask.hours.push(
                                         "+"
                                         + currentTimeReportedInDetails
-                                        + " # " + currentIssueInDetails
+                                        + " ".repeat(offset)
+                                        + "# " + currentIssueInDetails
                                         + " : "
                                         + currentDescriptionInDetails
                                             .replaceAll(descriptionSplited[1], "")
@@ -950,8 +955,11 @@
                                 }
                             }
                         } else {
+                            let timeSize = (currentTimeReportedInDetails + "").length;
+                            let offset = commentOffset + 1 - timeSize > 0 ? commentOffset + 1 - timeSize : 1;
                             let content = currentTimeReportedInDetails
-                                + " # " + currentIssueInDetails
+                                + " ".repeat(offset)
+                                + "# " + currentIssueInDetails
                                 + " : " + currentDescriptionInDetails.replaceAll("\\n", "").replaceAll("\\t", "");
                             console.log("no subtask found -> " + content);
                             resultsFound.task[idMain].main.hours.push(content);
@@ -1136,7 +1144,10 @@
                                     "hours": []
                                 });
                                 let idTask = resultsNotFound.task.length - 1;
+                                let timeSize = (currentTimeReportedInDetails + "").length;
+                                let offset = commentOffset + 1 - timeSize > 0 ? commentOffset + 1 - timeSize : 1;
                                 let content = currentTimeReportedInDetails
+                                    + " ".repeat(offset)
                                     + " # " + currentIssueInDetails
                                     + " : " + currentDescriptionInDetails.replaceAll("\\n", "").replaceAll("\\t", "");
                                 resultsNotFound.task[idTask].hours.push(content);
@@ -1158,8 +1169,11 @@
                                     console.log("ERROR - task not found in resultsFound.");
                                     continue;
                                 }
+                                let timeSize = (currentTimeReportedInDetails + "").length;
+                                let offset = commentOffset + 1 - timeSize > 0 ? commentOffset + 1 - timeSize : 1;
                                 let content = currentTimeReportedInDetails
-                                    + " # " + currentIssueInDetails
+                                    + " ".repeat(offset)
+                                    + "# " + currentIssueInDetails
                                     + " : " + currentDescriptionInDetails.replaceAll("\\n", "").replaceAll("\\t", "");
                                 resultsNotFound.task[idTask].hours.push(content);
                                 console.log("  added to resultsNotFound:");
