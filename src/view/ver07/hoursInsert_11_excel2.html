@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Hours</title>
+    <style>
+        body {
+            background: linear-gradient(0.25turn, #e5e5e5, #b6b6b6, #e5e5e5);
+            overflow: hidden;
+            width: 710px;
+            height: 210px;
+        }
+
+        label {
+            color: #939393;
+        }
+
+        input {
+            background: #e8ffe5;
+            box-shadow: 3px 3px #b4b4b4 inset;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 600px;
+            height: 32px;
+        }
+
+        input#hoursAmount {
+            width: 50px;
+        }
+
+        select {
+            background: #e8ffe5;
+            box-shadow: 3px 3px #b4b4b4 inset;
+            font-size: 16px;
+            border-radius: 15px;
+            border-width: 0px;
+            padding: 5px;
+            padding-left: 20px;
+            margin: 5px;
+            width: 625px;
+            height: 40px;
+        }
+
+        input#insertButton {
+            background: #9cff62;
+            box-shadow: 3px 3px 0 #000000;
+            width: 100px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 40px;
+        }
+
+        input#removeButton {
+            background: #ff6262;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 15px;
+        }
+
+        input#insertButton:active {
+            background: #63a83b;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#insertButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#removeButton:active {
+            background: #ad3f3f;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#removeButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#removeButton:active {
+            background: #ad3f3f;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#removeButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#convertJiraReportDetailsButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #07e3da;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 35px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 30px;
+        }
+
+        input#convertJiraReportDetailsButton:active {
+            background: #0d9492;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#convertJiraReportDetailsButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#convertJiraReportButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #07e3da;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 35px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 10px;
+        }
+
+        input#convertJiraReportButton:active {
+            background: #0d9492;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#convertJiraReportButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#writeToTxtButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #ffe786;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 10px;
+        }
+
+        input#writeToTxtButton:active {
+            background: #bdaa64;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#writeToTxtButton:hover {
+            border-color: #0014ff;
+        }
+
+        input#readTxtButton {
+            font-size: 10px;
+            font-weight: bold;
+            background: #c987ff;
+            box-shadow: 3px 3px 0 #000000;
+            transition: all .15s linear 0s;
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 40px;
+            border-width: 3px;
+            padding-left: 0px;
+            margin-left: 10px;
+        }
+
+        input#readTxtButton:active {
+            background: #9460bd;
+            box-shadow: 0px 0px 0 #000000;
+            transition: all .05s linear 0s;
+            top: 3px;
+            left: 3px;
+            position: relative;
+        }
+
+        input#readTxtButton:hover {
+            border-color: #0014ff;
+        }
+
+        div#statusMessage {
+            font-size: 16px;
+            color: #939393;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td>
+                <label for="filterTasks">Filter: </label>
+            </td>
+            <td>
+                <input type="text" id="filterTasks" value="CAPEX analysis bug" onkeyup="findTasksFilterAndSetToMenu()"
+                       onmouseover="filterTasksInfo()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="foundTasks">Task: </label>
+            </td>
+            <td>
+                <select id="foundTasks" onmouseover="foundTasksInfo()">
+                    <option id="foundTask-1">Task: Analysis and Review (Business initiatives (CAPEX))</option>
+                    <option id="foundTask-2">Task: Analysis and Review (Small medium features (CAPEX))</option>
+                    <option id="foundTask-3">Task: Bug Fixing and Rework (Business initiatives (CAPEX))</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="hoursAmount">Hours:</label>
+            </td>
+            <td>
+                <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
+                <input type="button" id="insertButton" value="INSERT" onclick="insertHours()"
+                       onmouseover="insertButtonInfo()">
+                <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()"
+                       onmouseover="removeButtonInfo()">
+                <input type="button" id="convertJiraReportDetailsButton" value="xls 2"
+                       onclick="convertJiraReportDetailed()"
+                       onmouseover="convertJiraReportInfoDetailed()">
+                <input type="button" id="convertJiraReportButton" value="xls" onclick="convertJiraReport()"
+                       onmouseover="convertJiraReportInfo()">
+                <input type="button" id="writeToTxtButton" value="writeTXT" onclick="writeToTxtFile()"
+                       onmouseover="writeToTxtButtonInfo()">
+                <input type="button" id="readTxtButton" value="parseTXT" onclick="readTxtFile()"
+                       onmouseover="readTxtButtonInfo()">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="statusMessage">Waiting for pressing some button...</div>
+            </td>
+        </tr>
+    </table>
+</form>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script>
+    let foundFiltered = [];
+    let task = "";
+    let hours = "";
+    const status = document.querySelector('#statusMessage');
+
+    function filterTasksInfo() {
+        status.textContent = "Filter ? just start writing, tasks will be filtered.";
+    }
+
+    function hoursAmountInfo() {
+        status.textContent = "Hours ? write here amount of h for selected task. Both , and . are supported.";
+    }
+
+    function foundTasksInfo() {
+        status.textContent = "Task ? select filtered one.";
+    }
+
+    function insertButtonInfo() {
+        status.textContent = "INSERT ? try to add given hours into selected task, if it is possible, starting from 1st day.";
+    }
+
+    function removeButtonInfo() {
+        status.textContent = "REMOVE ? try to substruct given hours from selected task, if it is posiible, starting from last day.";
+    }
+
+    function convertJiraReportInfoDetailed() {
+        status.textContent = "xls 2 ? read xls report from Jira (Group By PPM Project 20xx, Issue) and covert to input txt file.";
+    }
+
+    function convertJiraReportInfo() {
+        status.textContent = "xls ? read xls report from Jira (Group By PPM Project 20xx) and covert to input txt file.";
+    }
+
+    function writeToTxtButtonInfo() {
+        status.textContent = "writeTXT ? write all filtered tasks to a txt file, including total hours.";
+    }
+
+    function readTxtButtonInfo() {
+        status.textContent = "parseTXT ? read txt file and try to add/remove hours for each task.";
+    }
+
+    function findTasksFilterAndSetToMenu() {
+        //clear task list
+        const foundTasks = document.querySelector('#foundTasks');
+        while (foundTasks.firstChild) {
+            foundTasks.removeChild(foundTasks.lastChild);
+        }
+
+        //found values from other macro
+        let found = [];
+        let foundId = new Map();
+        let tempId = 0;
+        found.push("1) Task: Analysis and Review (Business initiatives (CAPEX))");
+        foundId.set("1) Task: Analysis and Review (Business initiatives (CAPEX))", ++tempId);
+        found.push("2) Task: Analysis and Review (Small medium features (CAPEX))");
+        foundId.set("2) Task: Analysis and Review (Small medium features (CAPEX))", ++tempId);
+        found.push("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))");
+        foundId.set("3) Task: Bug Fixing and Rework (Business initiatives (CAPEX))", ++tempId);
+        found.push("4) Task: Analysis and Review (Small medium features (OPEX))");
+        foundId.set("4) Task: Analysis and Review (Small medium features (OPEX))", ++tempId);
+        found.push("5) Task: Analysis and Review (Keep running (OPEX))");
+        foundId.set("5) Task: Analysis and Review (Keep running (OPEX))", ++tempId);
+        found.push("6) Task: Bug Fixing and Rework (Keep running (OPEX))");
+        foundId.set("6) Task: Bug Fixing and Rework (Keep running (OPEX))", ++tempId);
+        found.push("7) Task: Implementation (Keep running (OPEX))");
+        foundId.set("7) Task: Implementation (Keep running (OPEX))", ++tempId);
+        found.push("8) \tTask:\n my\n");
+        foundId.set("8) \tTask:\n my\n", ++tempId);
+
+        //filter
+        let filter = document.querySelector('#filterTasks').value;
+        filter = filter.toLowerCase();
+        let words = filter.split(" ");
+
+        foundFiltered = [];
+        found.forEach(task => {
+            let taskLowerCase = task.toLowerCase();
+            let taskShallBeAdded = true;
+            words.forEach(word => {
+                if (taskLowerCase.search(word) === -1 && word !== "") {
+                    taskShallBeAdded = false;
+                }
+            });
+            if (taskShallBeAdded) {
+                foundFiltered.push(task);
+            }
+        });
+
+
+        let i = 0;
+        foundFiltered.forEach(found => {
+            let newOption = new Option(found);
+            i++;
+            let id = "foundTask-" + i;
+            newOption.setAttribute('value', found);
+            newOption.setAttribute('id', id);
+            foundTasks.add(newOption);
+        })
+
+
+    }
+
+    function insertHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were inserted to " + task;
+        console.log("----------- INSERT HOURS ---------");
+        console.log("\tfoundFiltered=" + foundFiltered);
+        console.log("\ttask=" + task);
+        console.log("\thours=" + hours);
+        console.log("----------- INSERT HOURS ---------");
+    }
+
+    function removeHours() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = hours + " hours were removed from " + task;
+        console.log("----------- REMOVE HOURS ---------");
+        console.log("\tfoundFiltered=" + foundFiltered);
+        console.log("\ttask=" + task);
+        console.log("\thours=" + hours);
+        console.log("----------- REMOVE HOURS ---------");
+    }
+
+    function writeToTxtFile() {
+        let fondTasks = document.querySelector('#foundTasks').children
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = "Filtered tasks were written to a txt file.";
+
+        // open file in order to write a file & what to write
+        async function writeFile() {
+            const options = {
+                // suggestedName: 'ppm_hours_',
+                types: [
+                    {
+                        description: 'Text Files',
+                        accept: {
+                            'text/plain': ['.txt'],
+                        },
+                    },
+                ],
+            };
+            const fileHandle = await window.showSaveFilePicker(options);
+            const writable = await fileHandle.createWritable();
+
+            var creationDate = new Date();
+            var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+            await writable.write("# Created in " + creationDateFormatted + ".\n");
+            await writable.write("#------------------------------------------------------------------------------------\n");
+            await writable.write("#<-- use this for comments.\n");
+            await writable.write("# Content:\n");
+            await writable.write("# List of task names, below each current total hours.\n");
+            await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\n");
+            await writable.write("#     |====1) My great task\n");
+            await writable.write("#     |12\n");
+            await writable.write("#     |-2\n");
+            await writable.write("#     |+6\n");
+            await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\n");
+            await writable.write("# Current hours are not required, can be deleted from this file.\n");
+            await writable.write("#------------------------------------------------------------------------------------\n");
+
+            for (let i = 0; i < fondTasks.length; i++) {
+                let foundTask = fondTasks[i].value;
+                await writable.write("====" + foundTask + "\n");
+                await writable.write(16 + "\n");
+            }
+            await writable.close();
+        }
+
+        // writting a file
+        async function parseWriteFile() {
+            await writeFile();
+        }
+
+        parseWriteFile()
+    }
+
+    function readTxtFile() {
+        task = document.querySelector('#foundTasks').value;
+        hours = document.querySelector('#hoursAmount').value;
+        status.textContent = "Parsing given txt file.";
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Text Files',
+                        accept: {
+                            'text/plain': ['.txt'],
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            const fileHandle = await getFileHandle();
+            const file = await fileHandle.getFile();
+            const content = await file.text();
+            return content;
+        }
+
+        // parsing read txt file
+        async function parseReadTxt() {
+            const content = await readFile();
+            // console.log(content);
+
+            let lines = content.split("\n")
+            let currentTask;
+            let hours;
+            let increase = false;
+            let decrease = false;
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                console.log("LINE|" + line);
+                if (line.length === 0 || line === null) {
+                    continue;
+                }
+                let firstLetter = line[0];
+                if (firstLetter === "#") {
+                    continue;
+                }
+                if (firstLetter === "=") {
+                    increase = false;
+                    decrease = false;
+                    hours = parseFloat("0");
+                    currentTask = line.split("====")[1];
+                    console.log("\t-->TASK|" + currentTask);
+                }
+                if (firstLetter === "+") {
+                    increase = true;
+                    hours = parseFloat(line.split("+")[1]);
+                    if (hours === null || hours === parseFloat("0")) {
+                        continue;
+                    }
+                    let foundTaskMenu = document.querySelector('#foundTasks');
+                    let foundTaskElements = foundTaskMenu.children;
+                    for (let i = 0; i < foundTaskElements.length; i++) {
+                        let foundTask = foundTaskElements[i].value;
+                        if (currentTask === foundTask) {
+                            document.querySelector('#foundTasks').value = foundTask;
+                            document.querySelector('#hoursAmount').value = hours;
+                            document.querySelector('#insertButton').onclick();
+                            console.log("\t--> +  |" + hours);
+                            break;
+                        }
+                    }
+                }
+                if (firstLetter === "-") {
+                    increase = true;
+                    hours = parseFloat(line.split("-")[1]);
+                    if (hours === null || hours === parseFloat("0")) {
+                        continue;
+                    }
+                    let foundTaskMenu = document.querySelector('#foundTasks');
+                    let foundTaskElements = foundTaskMenu.children;
+                    for (let i = 0; i < foundTaskElements.length; i++) {
+                        let foundTask = foundTaskElements[i].value;
+                        if (currentTask === foundTask) {
+                            document.querySelector('#foundTasks').value = foundTask;
+                            document.querySelector('#hoursAmount').value = hours;
+                            document.querySelector('#removeButton').onclick();
+                            console.log("\t--> -  |" + hours);
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        parseReadTxt();
+    }
+
+    function convertJiraReport() {
+        console.log("Convert xml")
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Excel files',
+                        accept: {
+                            'application/vnd.ms-excel': ['.xls']
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            let content = "";
+            const fileHandle = await getFileHandle();
+            const permissionGranted = await fileHandle.requestPermission();
+            if (!permissionGranted) {
+                console.error('Permission to access file was denied');
+                return;
+            }
+            const file = await fileHandle.getFile();
+            //const content = await file.text();
+            const fileReader = new FileReader();
+            fileReader.addEventListener('load', (event) => {
+                    const binaryString = event.target.result;
+                    // Use a library like SheetJS or XLSX to parse the binary string
+                    //console.log(binaryString);
+                    const workbook = XLSX.read(binaryString, {type: 'binary'});
+                    // read first sheet only
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+                    // convert xls sheet to JSON
+                    let sheetContent = XLSX.utils.sheet_to_json(sheet);
+
+                    // parseSheetContent(sheetContent);
+                    if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
+                        console.log("There is no content for sheet :-(");
+                        return;
+                    }
+                    console.log(sheetContent);
+                    let jiraTaskHours = new Map();
+                    let resultOfParsing = "";
+                    for (let i = 0; i < sheetContent.length; i++) {
+                        let row = sheetContent[i];
+                        console.log("row " + i + "->" + row);
+                        let taskName = "";
+                        let taskHours = parseFloat(0);
+                        for (var key in row) {
+                            var value = row[key];
+                            // console.log("key=" + key + ", value=" + value);
+                            if (key.search(("PPM Project")) === 0) {
+                                taskName = value;
+                            } else if (key.search(("Total PPM Project")) === 0) {
+                                taskHours = parseFloat(value);
+                            }
+                        }
+                        if (taskName === "Total") {
+                            continue;
+                        }
+                        if (taskName.match(" - ") === -1) {
+                            continue;
+                        }
+
+                        taskName = taskName.replaceAll("\t", "").split(" - ").slice(-1);   //<<<<<<<< update here \t to \\t
+                        console.log("\ttask=" + taskName);
+                        console.log("\thours=" + taskHours);
+
+                        jiraTaskHours.set(taskName, taskHours);
+
+                        // resultOfParsing
+                        document.querySelector('#filterTasks').value = taskName;
+                        document.querySelector('#hoursAmount').value = taskHours;
+                        document.querySelector('#filterTasks').onkeyup();
+                        document.querySelector('#foundTasks');
+
+                        let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                        if (foundTasksAmount > 0) {
+                            for (let k = 0; k < foundTasksAmount; k++) {
+                                resultOfParsing = resultOfParsing + "====" + document.querySelector('#foundTasks').children[k].value + "\n";
+                            }
+                            resultOfParsing = resultOfParsing + taskHours + "\n"
+                        } else {
+                            resultOfParsing = resultOfParsing + "#task not found: " + taskName + " -> " + taskHours + "\n";
+                        }
+                    }
+                    document.querySelector('#filterTasks').value = "";
+                    document.querySelector('#hoursAmount').value = parseFloat(40);
+                    document.querySelector('#filterTasks').onkeyup();
+
+                    if (jiraTaskHours.size === 0) {
+                        return;
+                    }
+
+                    console.log("resultOfParsing=");
+                    console.log(resultOfParsing);
+
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+                    // let taskName = "small feat";
+                    // let taskHours = parseFloat(40);
+                    // let tasksFound = "";
+                    //
+                    // document.querySelector('#filterTasks').value = taskName;
+                    // document.querySelector('#hoursAmount').value = taskHours;
+                    // document.querySelector('#filterTasks').onkeyup();
+                    // document.querySelector('#foundTasks');
+                    //
+                    // let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                    // for (let i = 0; i < foundTasksAmount; i++) {
+                    //     tasksFound = tasksFound + "====" + document.querySelector('#foundTasks').children[i].value + "\n";
+                    // }
+                    // console.log("Shall write to a file:");
+                    // console.log(tasksFound);
+                    // console.log(taskHours);
+                    // // DUMMY TEST - set filter task -> get list of filtered tasks
+
+                    // open file in order to write a file & what to write
+                    async function writeFile() {
+                        const options = {
+                            // suggestedName: 'ppm_hours_',
+                            types: [
+                                {
+                                    description: 'Text Files',
+                                    accept: {
+                                        'text/plain': ['.txt'],
+                                    },
+                                },
+                            ],
+                        };
+                        const fileHandle = await window.showSaveFilePicker(options);
+                        const writable = await fileHandle.createWritable();
+
+                        var creationDate = new Date();
+                        var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                            + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+                        await writable.write("# Created in " + creationDateFormatted + ".\n");
+                        await writable.write("# Converted from Jira report file\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write("#<-- use this for comments.\n");
+                        await writable.write("# Content:\n");
+                        await writable.write("# List of task names, below each current total hours.\n");
+                        await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\n");
+                        await writable.write("#     |====1) My great task\n");
+                        await writable.write("#     |12\n");
+                        await writable.write("#     |-2\n");
+                        await writable.write("#     |+6\n");
+                        await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\n");
+                        await writable.write("# Current hours are not required, can be deleted from this file.\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write(resultOfParsing);
+                        await writable.close();
+                    }
+
+                    // writting a file
+                    async function parseWriteFile() {
+                        await writeFile();
+                    }
+
+                    parseWriteFile()
+                }
+            )
+            fileReader.readAsBinaryString(file);
+        }
+
+
+        async function runReadingXmlFile() {
+            console.log("reading file");
+            await readFile();
+        }
+
+        runReadingXmlFile();
+    }
+
+    function convertJiraReportDetailed() {
+        console.log("Convert xml 2 - detailed way")
+
+        //reading file
+        async function getFileHandle() {
+            const options = {
+                types: [
+                    {
+                        description: 'Excel files',
+                        accept: {
+                            'application/vnd.ms-excel': ['.xls']
+                        },
+                    },
+                ],
+            };
+            const [fileHandle] = await window.showOpenFilePicker(options);
+            return fileHandle;
+        }
+
+        async function readFile() {
+            let content = "";
+            const fileHandle = await getFileHandle();
+            const permissionGranted = await fileHandle.requestPermission();
+            if (!permissionGranted) {
+                console.error('Permission to access file was denied');
+                return;
+            }
+            const file = await fileHandle.getFile();
+            //const content = await file.text();
+            const fileReader = new FileReader();
+            fileReader.addEventListener('load', (event) => {
+                    function updateHoursInMainOrInSubtask(currentDescriptionInDetails, idMain, resultsFound, foundTasksForCurrent) {
+                        // check if it is subtask or not -> add
+                        //"<Bug Fixing and Rework> dfanalysis is <asdf asdf >".split(/(<[a-zA-Z 0-9]*>)/)
+                        //"nothing important".split(/(<[a-zA-Z 0-9]*>)/)
+                        console.log("==== parsing description");
+                        console.log(currentDescriptionInDetails);
+                        let descriptionSplited = currentDescriptionInDetails.split(/(<[a-zA-Z 0-9]*>)/);
+                        let length = descriptionSplited.length;
+                        let isSubtask = false;
+                        if (length > 1 && resultsFound.task[idMain].sub.length > 0) {
+                            let descriptionSubtask = descriptionSplited[1];
+                            descriptionSubtask = descriptionSubtask.replaceAll(">", "").replaceAll("<", "");
+                            // isSubtask = foundTasksForCurrent.includes(descriptionSubtask);
+                            isSubtask = foundTasksForCurrent.some(tasks => tasks.includes(descriptionSubtask));
+                        }
+                        if (isSubtask) {
+                            for (let i in resultsFound.task[idMain].sub) {
+                                let subtask = resultsFound.task[idMain].sub[i];
+                                let descriptionSubtask = descriptionSplited[1];
+                                descriptionSubtask = descriptionSubtask.replaceAll(">", "").replaceAll("<", "");
+                                if (subtask.name.includes(descriptionSubtask)) {
+                                    console.log("=-=-=");
+                                    console.log("   added to subtask: " + subtask.name);
+                                    subtask.hours.push(
+                                        "+"
+                                        + currentTimeReportedInDetails
+                                        + " # " + currentIssueInDetails
+                                        + " : "
+                                        + currentDescriptionInDetails
+                                            .replaceAll(descriptionSplited[1], "")
+                                            .replaceAll("\n", "")
+                                            .replaceAll("\t", ""));
+                                    break;
+                                }
+                            }
+                        } else {
+                            let content = currentTimeReportedInDetails
+                                + " # " + currentIssueInDetails
+                                + " : " + currentDescriptionInDetails.replaceAll("\n", "").replaceAll("\t", "");
+                            console.log("no subtask found -> " + content);
+                            resultsFound.task[idMain].main.hours.push(content);
+                        }
+                    }
+
+
+                    const binaryString = event.target.result;
+                    // Use a library like SheetJS or XLSX to parse the binary string
+                    //console.log(binaryString);
+                    const workbook = XLSX.read(binaryString, {type: 'binary'});
+
+                    // (1) read first sheet - parse Jira task and PPM task
+                    let sheetName = workbook.SheetNames[0];
+                    let sheet = workbook.Sheets[sheetName];
+                    // convert xls sheet to JSON
+                    let sheetContent = XLSX.utils.sheet_to_json(sheet);
+
+                    // parseSheetContent(sheetContent);
+                    if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
+                        console.log("There is no content for sheet :-(");
+                        return;
+                    }
+                    console.log(sheetContent);
+
+                    // mapping Jira to ppm task
+                    const jiraTaskPPMTask = new Map();
+                    let currentIssue = "";
+                    let currentPPMProject = "";
+                    for (let i = 0; i < sheetContent.length; i++) {
+                        let elementOnSheet = sheetContent[i];
+                        console.log("Element " + i + " = " + elementOnSheet)
+                        for (let key in elementOnSheet) {
+                            let value = elementOnSheet[key];
+                            console.log("---> key=" + key + ", value=" + value);
+                            if (key.search("Issue") === 0) {
+                                currentIssue = value;
+                                if (currentPPMProject !== "") {
+                                    jiraTaskPPMTask.set(currentIssue, currentPPMProject);
+                                }
+                            } else if (key.search("PPM Project 20") === 0) {
+                                let ppmName = value.replaceAll("\t", "").split(" - ").slice(-1)[0];
+                                currentPPMProject = ppmName;
+                            }
+                        }
+                    }
+                    console.log("(1) done: jiraTaskPPMTask = ");
+                    console.log(jiraTaskPPMTask);
+
+                    // (2) read second sheet - parse Jira tasks hours to proper PPM task and save
+                    console.log("===============")
+                    console.log("=== part 2 ====")
+                    console.log("===============")
+
+                    // (2.0) get list of all tasks
+                    document.querySelector('#filterTasks').value = "";
+                    document.querySelector('#filterTasks').onkeyup();
+                    document.querySelector('#foundTasks');
+                    let foundTasksAmount = document.querySelector('#foundTasks').childElementCount;
+                    const foundTasks = [];
+                    for (let k = 0; k < foundTasksAmount; k++) {
+                        foundTasks.push(document.querySelector('#foundTasks').children[k].value);
+                    }
+                    console.log("My all found tasks are:");
+                    console.log(foundTasks);
+
+                    // (2.1) read data from sheet 2
+                    sheetName = workbook.SheetNames[1];
+                    sheet = workbook.Sheets[sheetName];
+                    sheetContent = XLSX.utils.sheet_to_json(sheet);
+                    // parseSheetContent(sheetContent);
+                    if (sheetContent === "" || sheetContent === null || sheetContent.length <= 1) {
+                        console.log("There is no content for sheet :-(");
+                        return;
+                    }
+                    console.log(sheetContent);
+                    let currentIssueInDetails = "";
+                    let currentTimeReportedInDetails = "";
+                    let currentDescriptionInDetails = "";
+                    let currentPPMMainTaskInDetails = "";
+
+                    const resultsFound = {"task": []};
+                    const resultsNotFound = {"task": []};
+
+                    for (let i = 0; i < sheetContent.length; i++) {
+                        let elementOnSheet = sheetContent[i];
+                        console.log("Element " + i + " = " + elementOnSheet);
+                        for (let key in elementOnSheet) {
+                            let value = elementOnSheet[key];
+                            if (key.search("Issue") === 0) {
+                                currentIssueInDetails = value;
+                            } else if (key.search("Time reported") === 0) {
+                                currentTimeReportedInDetails = parseFloat(value);
+                            } else if (key.search("Description") === 0) {
+                                currentDescriptionInDetails = value;
+                            }
+                        }
+                        currentPPMMainTaskInDetails = jiraTaskPPMTask.get(currentIssueInDetails);
+                        console.log("Found: " + currentIssueInDetails + " " + currentTimeReportedInDetails + "h |"
+                            + currentDescriptionInDetails + "|" + " ppm = " + currentPPMMainTaskInDetails);
+
+                        let isCurrentPPMMainTaskInFoundTasks = false;
+                        let foundTasksForCurrent = [];
+                        for (let id in foundTasks) {
+                            let foundTask = foundTasks[id];
+                            if (foundTask.includes(currentPPMMainTaskInDetails)) {
+                                isCurrentPPMMainTaskInFoundTasks = true;
+                                foundTasksForCurrent.push(foundTask);
+                            }
+                        }
+                        //resultsFound  |  resultsNotFound  |  foundTasks  |  currentPPMProject
+                        //  aaa.some(e => /.*lic.*/.test(e))
+                        if (isCurrentPPMMainTaskInFoundTasks) {
+                            console.log("-->  OK: it was found in foundTask");
+                            let hasResultsTask = false;
+                            for (let i in resultsFound.task) {
+                                if (resultsFound.task[i].main.name === currentPPMMainTaskInDetails) {
+                                    hasResultsTask = true;
+                                    break;
+                                }
+                            }
+                            if (!hasResultsTask) {
+                                console.log("-->  create new foundTask for " + currentPPMMainTaskInDetails);
+                                resultsFound.task.push({
+                                    "main": {
+                                        "name": currentPPMMainTaskInDetails,
+                                        "hours": []
+                                    },
+                                    "sub": []
+                                });
+                                let idMain = resultsFound.task.length - 1;
+                                console.log(resultsFound);
+                                console.log(idMain);
+                                for (let idTask in foundTasksForCurrent) {
+                                    let subTask = foundTasksForCurrent[idTask];
+                                    console.log("--- add subtask: " + subTask);
+                                    resultsFound.task[idMain].sub.push(
+                                        {
+                                            "name": subTask,
+                                            "hours": []
+                                        }
+                                    );
+                                }
+                                updateHoursInMainOrInSubtask(currentDescriptionInDetails, idMain, resultsFound, foundTasksForCurrent);
+
+                            } else {
+                                //hasResultsTask
+                                console.log("-->  update foundTask for " + currentPPMMainTaskInDetails);
+                                //find task id in resultsFound
+                                let idMain = null;
+                                for (let i in resultsFound.task) {
+                                    console.log(resultsFound.task[i].main.name);
+                                    if (resultsFound.task[i].main.name === currentPPMMainTaskInDetails) {
+                                        idMain = i;
+                                        break
+                                    }
+                                }
+                                if (idMain == null) {
+                                    console.log("ERROR - task not found in resultsFound.");
+                                    continue;
+                                }
+                                updateHoursInMainOrInSubtask(currentDescriptionInDetails, idMain, resultsFound, foundTasksForCurrent);
+                            }
+
+                            console.log(resultsFound);
+
+
+                        } else {
+                            console.log("--> BAD: it was not found in foundTask");
+                            //const resultsNotFound = {"task": []};
+                            let hasResultsTask = false;
+                            for (let i in resultsNotFound.task) {
+                                if (resultsNotFound.task[i].name === currentPPMMainTaskInDetails) {
+                                    hasResultsTask = true;
+                                    break;
+                                }
+                            }
+                            if (!hasResultsTask) {
+                                console.log("-->  create new notFoundTask for " + currentPPMMainTaskInDetails);
+                                resultsNotFound.task.push({
+                                    "name": currentPPMMainTaskInDetails,
+                                    "hours": []
+                                });
+                                let idTask = resultsNotFound.task.length - 1;
+                                let content = currentTimeReportedInDetails
+                                    + " # " + currentIssueInDetails
+                                    + " : " + currentDescriptionInDetails.replaceAll("\n", "").replaceAll("\t", "");
+                                resultsNotFound.task[idTask].hours.push(content);
+                                console.log("  added to resultsNotFound:");
+                                console.log(resultsNotFound);
+                            } else {
+                                //hasResultsTask
+                                console.log("-->  update notFoundTask for " + currentPPMMainTaskInDetails);
+                                //find task id in resultsFound
+                                let idTask = null;
+                                for (let i in resultsNotFound.task) {
+                                    console.log(resultsNotFound.task[i].name);
+                                    if (resultsNotFound.task[i].name === currentPPMMainTaskInDetails) {
+                                        idTask = i;
+                                        break
+                                    }
+                                }
+                                if (idTask == null) {
+                                    console.log("ERROR - task not found in resultsFound.");
+                                    continue;
+                                }
+                                let content = currentTimeReportedInDetails
+                                    + " # " + currentIssueInDetails
+                                    + " : " + currentDescriptionInDetails.replaceAll("\n", "").replaceAll("\t", "");
+                                resultsNotFound.task[idTask].hours.push(content);
+                                console.log("  added to resultsNotFound:");
+                                console.log(resultsNotFound);
+                            }
+                        }
+                    }
+
+                    console.log(resultsFound);
+                    console.log(resultsNotFound);
+                    let resultOfParsing = "";
+                    console.log("#-----------------------------------------------------------------------------------");
+                    console.log("################################### resultsFound ###################################");
+                    resultOfParsing = resultOfParsing + "################################### resultsFound ###################################\n";
+                    for (let i in resultsFound.task) {
+                        for (let j in resultsFound.task[i].sub) {
+                            console.log("====" + resultsFound.task[i].sub[j].name);
+                            resultOfParsing = resultOfParsing + "====" + resultsFound.task[i].sub[j].name + "\n";
+                            for (let k in resultsFound.task[i].sub[j].hours) {
+                                console.log(resultsFound.task[i].sub[j].hours[k]);
+                                resultOfParsing = resultOfParsing + resultsFound.task[i].sub[j].hours[k] + "\n";
+                            }
+                        }
+                        console.log("#-----------------------------------------------------------------------------------");
+                        resultOfParsing = resultOfParsing + "#-----------------------------------------------------------------------------------\n";
+                        for (let j in resultsFound.task[i].main.hours) {
+                            console.log(resultsFound.task[i].main.hours[j]);
+                            resultOfParsing = resultOfParsing + resultsFound.task[i].main.hours[j] + "\n";
+                        }
+                        console.log("#-----------------------------------------------------------------------------------");
+                        resultOfParsing = resultOfParsing + "#-----------------------------------------------------------------------------------\n";
+                        console.log("");
+                        console.log("");
+                        resultOfParsing = resultOfParsing + "\n";
+                        resultOfParsing = resultOfParsing + "\n";
+                    }
+
+                    console.log("################################### resultsNotFound ################################");
+                    resultOfParsing = resultOfParsing + "################################### resultsNotFound ################################\n";
+                    for (let i in resultsNotFound.task) {
+                        console.log("#===" + resultsNotFound.task[i].name);
+                        resultOfParsing = resultOfParsing + "#===" + resultsNotFound.task[i].name + "\n";
+                        for (let j in resultsNotFound.task[i].hours) {
+                            console.log(resultsNotFound.task[i].hours[j]);
+                            resultOfParsing = resultOfParsing + resultsNotFound.task[i].hours[j] + "\n";
+                        }
+                        console.log("");
+                        console.log("");
+                        resultOfParsing = resultOfParsing + "\n";
+                        resultOfParsing = resultOfParsing + "\n";
+                    }
+                    console.log("#-----------------------------------------------------------------------------------");
+                    resultOfParsing = resultOfParsing + "#-----------------------------------------------------------------------------------\n";
+                    // (3) write to a file
+                    console.log("===============");
+                    console.log("=== part 3 ====");
+                    console.log("===============");
+                    //let resultOfParsing = "";
+
+                    // open file in order to write a file & what to write
+                    async function writeFile() {
+                        const options = {
+                            // suggestedName: 'ppm_hours_',
+                            types: [
+                                {
+                                    description: 'Text Files',
+                                    accept: {
+                                        'text/plain': ['.txt'],
+                                    },
+                                },
+                            ],
+                        };
+                        const fileHandle = await window.showSaveFilePicker(options);
+                        const writable = await fileHandle.createWritable();
+
+                        var creationDate = new Date();
+                        var creationDateFormatted = +creationDate.getFullYear() + "-" + (creationDate.getMonth() + 1) + "-" + creationDate.getDate()
+                            + "_" + creationDate.getHours() + "-" + creationDate.getMinutes() + "-" + creationDate.getSeconds();
+                        await writable.write("# Created in " + creationDateFormatted + ".\n");
+                        await writable.write("# Converted from detailed Jira report file\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write("#<-- use this for comments.\n");
+                        await writable.write("# Content:\n");
+                        await writable.write("# List of task names, below each current total hours.\n");
+                        await writable.write("# In order to increase or decrease hours, write +XXX or -XXX, for example:\n");
+                        await writable.write("#     |====1) My great task\n");
+                        await writable.write("#     |12\n");
+                        await writable.write("#     |-2\n");
+                        await writable.write("#     |+6\n");
+                        await writable.write("# So current hours for Task 1 is 12h, it will be decreased by 2h and increased by 6h.\n");
+                        await writable.write("# Current hours are not required, can be deleted from this file.\n");
+                        await writable.write("#------------------------------------------------------------------------------------\n");
+                        await writable.write(resultOfParsing);
+                        await writable.close();
+                    }
+
+                    // writting a file
+                    async function parseWriteFile() {
+                        await writeFile();
+                    }
+
+                    parseWriteFile()
+                }
+            )
+            fileReader.readAsBinaryString(file);
+        }
+
+
+        async function runReadingXmlFile() {
+            console.log("reading file");
+            await readFile();
+        }
+
+        runReadingXmlFile();
+    }
+
+</script>
+</body>
+</html>
