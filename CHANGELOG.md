@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.8.12] - 2023-03-04, M.Ryś
 
 - InsertHours window: convertion of Jiras report in second way, more detailed. Simplest implementation.
+- Jira log time macro - first release.
 
 ## [1.8.11] - 2023-03-02, M.Ryś
 
