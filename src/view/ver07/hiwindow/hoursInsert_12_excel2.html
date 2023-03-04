@@ -920,7 +920,7 @@
                         //"nothing important".split(/(<[a-zA-Z 0-9]*>)/)
                         console.log("==== parsing description");
                         console.log(currentDescriptionInDetails);
-                        let descriptionSplited = currentDescriptionInDetails.split(/(<[a-zA-Z 0-9]*>)/);
+                        let descriptionSplited = currentDescriptionInDetails.split(/(<[a-zA-Z 0-9:-_]*>)/);
                         let length = descriptionSplited.length;
                         let isSubtask = false;
                         if (length > 1 && resultsFound.task[idMain].sub.length > 0) {
