@@ -1000,7 +1000,7 @@
         hiWindow.document.writeln("                        //\"nothing important\".split(/(<[a-zA-Z 0-9]*>)/)");
         hiWindow.document.writeln("                        console.log(\"==== parsing description\");");
         hiWindow.document.writeln("                        console.log(currentDescriptionInDetails);");
-        hiWindow.document.writeln("                        let descriptionSplited = currentDescriptionInDetails.split(/(<[a-zA-Z 0-9:-_]*>)/);");
+        hiWindow.document.writeln("                        let descriptionSplited = currentDescriptionInDetails.split(/(<[a-zA-Z 0-9:-_,]*>)/);");
         hiWindow.document.writeln("                        let length = descriptionSplited.length;");
         hiWindow.document.writeln("                        let isSubtask = false;");
         hiWindow.document.writeln("                        if (length > 1 && resultsFound.task[idMain].sub.length > 0) {");
