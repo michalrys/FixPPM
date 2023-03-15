@@ -10,27 +10,35 @@
 </style>
 <body>
 DUMMY MENU<br/><br/>
-    <div id="pseudoBatchDiv"
-         style="padding-left: 40px; margin-top: 0px; margin-bottom: 10px; font-size: 12px; color: #6B778C;">
-        <label id="mySubTaskLabel" for="mySubTaskSelect">Subtask:</label>
-        <select id="mySubTaskSelect"
-                style="height: 18px; width: 250px; font-size: 10px; color: #6B778C; margin-left: 10px; margin-right: 10px; border: unset"">
-            <option id="foundTask-0">...</option>
-            <option id="foundTask-1">Task: Analysis and Review</option>
-            <option id="foundTask-2">Task: Bug Fixing and Rework</option>
-            <option id="foundTask-3">Task: Build and Release</option>
-            <option id="foundTask-4">Task: Implementation</option>
-            <option id="foundTask-5">Task: Test Case Specification</option>
-            <option id="foundTask-6">Task: Test Execution</option>
-        </select>
-        <input id="myHoursInput" type="text" title="Hours in h, eg.: 0.5, 2, 0.25"
-               style="height: 12px; width: 20px; font-size: 10px; color: #6B778C; margin-right: 3px; alignment: center">
-        <label id="myHoursLabel" for="myHoursInput">h</label>
-        <button onclick="window.open('https://www.google.pl', '_blank')">ADD</button>
-        <input id="myHoursComment" type="text" title="Additional description"
-               style="height: 15px; width: 250px; font-size: 10px; color: #9a9a9a; margin-left: 30px; padding-left: 5px;
+<div id="pseudoBatchDiv"
+     style="padding-left: 40px; margin-top: 0px; margin-bottom: 10px; font-size: 12px; color: #6B778C;">
+    <label id="mySubTaskLabel" for="mySubTaskSelect">Subtask:</label>
+    <select id="mySubTaskSelect"
+            style="height: 18px; width: 250px; font-size: 10px; color: #6B778C; margin-left: 10px; margin-right: 10px; border: unset"">
+    <option id="foundTask-0">...</option>
+    <option id="foundTask-1">Task: Analysis and Review</option>
+    <option id="foundTask-2">Task: Bug Fixing and Rework</option>
+    <option id="foundTask-3">Task: Build and Release</option>
+    <option id="foundTask-4">Task: Implementation</option>
+    <option id="foundTask-5">Task: Test Case Specification</option>
+    <option id="foundTask-6">Task: Test Execution</option>
+    </select>
+    <input id="myHoursInput" type="text" title="Hours in h, eg.: 0.5, 2, 0.25"
+           style="height: 12px; width: 20px; font-size: 10px; color: #6B778C; margin-right: 3px; alignment: center">
+    <label id="myHoursLabel" for="myHoursInput">h</label>
+    <button onclick="window.open('https://www.google.pl', '_blank')"
+            style="height: 18px; width: 40px; font-size: 10px; color: #6B778C; margin-left: 10px; border: 1px solid #9a9a9a; cursor: hand; border-radius: 5px;">
+        ADD
+    </button>
+    <input id="myHoursComment" type="text" title="Additional description"
+           style="height: 15px; width: 250px; font-size: 10px; color: #9a9a9a; margin-left: 30px; padding-left: 5px;
                border: unset; background: #fafafa">
-    </div>
+    <button onclick="window.open('https://www.google.pl', '_blank')"
+            style="height: 18px; width: 18px; padding-left: 4px; font-size: 10px; color: #6B778C; margin-left: 10px;
+             border: 1px solid #9a9a9a; cursor: hand; border-radius: 18px;" title="Go to Jira Team Report">
+        R
+    </button>
+</div>
 DUMMY MENU
 </body>
 </html>
