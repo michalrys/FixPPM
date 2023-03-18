@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/XXXX
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/XXXX
-// @version      1.0.2
+// @version      1.0.3
 // @description  Add hours in a massive way.
 // @author       Michał Ryś
 // @match        https://jira.deltavista.com/jira/issues/?filter=*
@@ -231,10 +231,12 @@
         function logMyHours(currentIssueJiraId) {
             //"https://jira.deltavista.com/jira/secure/CreateWorklog!default.jspa?myhours=777&mydescription=AlaMaKota&id=790548";
             let subTask = "";
+            let mySubTaskSelect = document.getElementById("mySubTaskSelect");
             try {
-                let subTask = "<" + mySubTaskSelect[mySubTaskSelect.selectedIndex].text + ">";
+                subTask = "<" + mySubTaskSelect[mySubTaskSelect.selectedIndex].text + ">";
                 console.log(subTask);
             } catch(exception) {
+                subTask = "<NO PPM TASK>";
                 console.log("No subtask ! empty string will be assumed.");
             }
 
@@ -246,9 +248,13 @@
 
             if (hours === "") {
                 console.log("Wrong hours - must be a number");
+                myHoursInput.style.background = colorRed;
                 return;
+            } else {
+                myHoursInput.style.background = "#fafafa";
             }
             if (subTask.includes("Select subtask for ppm...")) {
+                mySubTaskSelect.style.background = colorRed;
                 console.log("Wrong ! select subtask.");
                 return;
             }
