@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/XXXX
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/XXXX
-// @version      1.0.1
+// @version      1.0.2
 // @description  Add hours in a massive way.
 // @author       Michał Ryś
 // @match        https://jira.deltavista.com/jira/issues/?filter=*
@@ -38,48 +38,6 @@
     const colorGreen = "#A4FF9E";
     const colorYellow = "#FDFF9E";
 
-//     let ppmName;
-//     let logDialogWindowColor;
-//     try {
-//         ppmName = document.getElementById("customfield_17113-val");
-//         ppmName = ppmName.textContent.trim().replaceAll("\n", "").replaceAll("\t", "");
-//         ppmName = ppmName.split(" - ").slice(-1)[0];
-//         logDialogWindowColor = colorGreen;
-//     } catch (exception) {
-//         ppmName = "NO PPM TASK";
-//         logDialogWindowColor = colorRed;
-//         console.log("ppm task not found !");
-//     }
-
-//     //add onclick event listener - generate fields
-//     setTimeout(function() {
-//     let issueTable = document.getElementById("issuetable");
-//     let issuesTr = issueTable.children[1];
-//     for(let i in issuesTr.childNodes) {
-//         let currentIssueTr = issuesTr.childNodes[i];
-//         let currentIssueJiraName = "UNKNOWN JIRA NAME";
-//         for(let j in currentIssueTr.childNodes) {
-//             let currentIssueTd = currentIssueTr.childNodes[j];
-//             if(currentIssueTd.className === "issuekey") {
-//                 currentIssueJiraName = currentIssueTd.textContent.trim();
-//                 let logTimeButton = document.createElement('button');
-//                 logTimeButton.id = "logTimeButton_" + j;
-//                 logTimeButton.title = "Log hours for this.";
-//                 logTimeButton.innerText = "T";
-//                 //logTimeButton.style = "height: 18px; width: 18px; padding-left: 4px; font-size: 10px; color: #6B778C; margin-left: 10px; border: 1px solid #9a9a9a; cursor: hand; border-radius: 18px;";
-//                 //logTimeButton.onclick = test(currentIssueJiraName);
-//                 currentIssueTd.append(logTimeButton);
-
-
-//                 //currentIssueTr.addEventListener("click", createLogTimeMenu(currentIssueJiraName));
-//                 //currentIssueTr.onclick = test(currentIssueJiraName);
-//                 break;
-//             }
-//         }
-//     }
-//     }, 5000);
-
-    //other way:
     createLogTimeMenu(setPPMTaskSubtasks(), "Jira ???", " (NO PPM TASK) ");
 
     function createLogTimeMenu(ppmTaskSubtasks, currentIssueJiraName, currentIssuePPM2023) {
@@ -115,8 +73,8 @@
                 if(selectedIssueWasFound) {
                     break;
                 }
-
             }
+
             let mySubTaskLabel = document.getElementById("mySubTaskLabel");
             mySubTaskLabel.textContent = currentIssueJiraName;
 
@@ -165,16 +123,13 @@
 
             // set log button
             let myHoursButton = document.getElementById("myHoursButton");
-//             myHoursButton.addEventListener("click", function () {
-//                 logMyHours(currentIssueJiraId);
-//             });
             myHoursButton.onclick = function () {
                 logMyHours(currentIssueJiraId);
             };
 
         }
 
-        // pseudo-batch   let a = document.getElementById("pseudoBatchDiv")  //details-module
+        // pseudo-batch
         let documentIssueHeader = document.getElementsByClassName("aui navigator-search query-component generic-styled");
 
         let pseudoBatchDiv = document.createElement('div');
@@ -200,14 +155,7 @@
         mySubTaskSelect.id = "mySubTaskSelect";
         mySubTaskSelect.style = "height: 18px; width: 220px; font-size: 10px; color: #6B778C; margin-left: 10px; margin-right: 10px; outline: 0px SOLID #6B778C; border: unset; background: #fafafa";
 
-        //     let optionMySubTaskSelect0 = document.createElement("option");
-        //     optionMySubTaskSelect0.id = "optionMySubTaskSelect0";
-        //     optionMySubTaskSelect0.textContent = "...";
-        //     optionMySubTaskSelect0.value = "nothing_selected";
-        //     mySubTaskSelect.add(optionMySubTaskSelect0, undefined);
-
         // add select and options
-        //let ppmName = "Small medium features (OPEX)";  //FIXME
         let ppmName = currentIssuePPM2023;
 
         let subtasksForBatch = ppmTaskSubtasks.get(ppmName);
@@ -260,10 +208,6 @@
         myHoursButton.title = "Log given hours for given subtask.";
         myHoursButton.innerText = "LOG";
         myHoursButton.style = "height: 18px; width: 40px; font-size: 10px; color: #6B778C; margin-left: 10px; border: 1px solid #9a9a9a; cursor: hand; border-radius: 5px;";
-        //myHoursButton.onclick = logMyHours;
-//         myHoursButton.addEventListener("click", function () {
-//             logMyHours("0");
-//         });
         myHoursButton.onclick = function () {
             logMyHours("0");
         };
@@ -286,8 +230,6 @@
 
         function logMyHours(currentIssueJiraId) {
             //"https://jira.deltavista.com/jira/secure/CreateWorklog!default.jspa?myhours=777&mydescription=AlaMaKota&id=790548";
-
-            //let a = document.getElementById("mySubTaskSelect");
             let subTask = "";
             try {
                 let subTask = "<" + mySubTaskSelect[mySubTaskSelect.selectedIndex].text + ">";
@@ -296,7 +238,6 @@
                 console.log("No subtask ! empty string will be assumed.");
             }
 
-            //let b = document.getElementById("myHoursInput");
             let hours = myHoursInput.value;
             console.log(hours);
 
@@ -312,7 +253,6 @@
                 return;
             }
             //window.open('https://jira.deltavista.com/jira/secure/CreateWorklog!default.jspa?myhours=777&mydescription=AlaMaKota&id=790548', '_blank');
-            //let jiraId = document.getElementById("key-val").rel;
             let batchPath = "https://jira.deltavista.com/jira/secure/CreateWorklog!default.jspa?";
             batchPath += "myhours=";
             batchPath += hours;
