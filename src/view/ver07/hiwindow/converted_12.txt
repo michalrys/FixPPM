@@ -421,6 +421,7 @@ hiWindow.document.writeln("        //insert hours");
 hiWindow.document.writeln("        // ! be careful with these");
 hiWindow.document.writeln("        let bgColorDefaultExpected = \"white\";");
 hiWindow.document.writeln("        let bgColorPartialHoursExpected = \"rgb(205, 226, 183)\";");
+hiWindow.document.writeln("        var bgColorPartialHoursWarning = \"rgb(255, 255, 124)\";");
 hiWindow.document.writeln("        let maxHoursDaily = 8;");
 hiWindow.document.writeln("        // ! be careful with these");
 hiWindow.document.writeln(" ");
@@ -434,7 +435,8 @@ hiWindow.document.writeln("        var totalDayHoursCells = totalDayHoursRows.ch
 hiWindow.document.writeln("        for (let i = 0; i < totalDayHoursCells.children.length; i++) {");
 hiWindow.document.writeln("            let dayHoursComponent = totalDayHoursCells.children[i];");
 hiWindow.document.writeln("            let dayHoursBackgroundColor = dayHoursComponent.style.getPropertyValue(\"background-color\");");
-hiWindow.document.writeln("            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected || dayHoursBackgroundColor === bgColorDefaultExpected);");
+hiWindow.document.writeln("            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected");
+hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorDefaultExpected || dayHoursBackgroundColor === bgColorPartialHoursWarning);");
 hiWindow.document.writeln("            if (shallInsertHours) {");
 hiWindow.document.writeln("                let totalDayHoursText = dayHoursComponent.textContent;");
 hiWindow.document.writeln("                totalDayHours = parseFloat(totalDayHoursText);");

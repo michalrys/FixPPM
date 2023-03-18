@@ -421,6 +421,7 @@
         // ! be careful with these
         let bgColorDefaultExpected = "white";
         let bgColorPartialHoursExpected = "rgb(205, 226, 183)";
+        let bgColorPartialHoursWarning = "rgb(255, 255, 124)";
         let maxHoursDaily = 8;
         // ! be careful with these
 
@@ -434,7 +435,8 @@
         for (let i = 0; i < totalDayHoursCells.children.length; i++) {
             let dayHoursComponent = totalDayHoursCells.children[i];
             let dayHoursBackgroundColor = dayHoursComponent.style.getPropertyValue("background-color");
-            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected || dayHoursBackgroundColor === bgColorDefaultExpected);
+            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected
+                || dayHoursBackgroundColor === bgColorDefaultExpected || dayHoursBackgroundColor === bgColorPartialHoursWarning);
             if (shallInsertHours) {
                 let totalDayHoursText = dayHoursComponent.textContent;
                 totalDayHours = parseFloat(totalDayHoursText);
