@@ -292,6 +292,7 @@
     let sumHoursForTask = [];
     let task = "";
     let hours = "";
+    let hoursOvertime = "";
     const status = document.querySelector('#statusMessage');
     document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();
 
@@ -304,7 +305,7 @@
     }
 
     function hoursOvertimeInfo() {
-        status.textContent = "Overtime ? allowable overtime hours per day.";
+        status.textContent = "Overtime ? allowable overtime hours per day. Use 0 for no overtime.";
     }
 
     function foundTasksInfo() {
@@ -434,6 +435,8 @@
         let bgColorDefaultExpected = "white";
         let bgColorPartialHoursExpected = "rgb(205, 226, 183)";
         let bgColorPartialHoursWarning = "rgb(255, 255, 124)";
+        var bgColorCorrect = "rgb(152, 191, 105)";
+        var bgColorWarning = "rgb(249, 249, 102)";
         let maxHoursDaily = 8;
         // ! be careful with these
 
@@ -483,6 +486,62 @@
                 }
             }
         }
+        if (hours <= 0) {
+            return;
+        }
+        if (parseFloat("0,1") === 0) {
+            hoursOvertime = parseFloat(document.querySelector('#hoursOvertime').value.replaceAll(",", "."));
+        } else {
+            hoursOvertime = parseFloat(document.querySelector('#hoursOvertime').value.replaceAll(".", ","));
+        }
+        if (hoursOvertime <= 0) {
+            return;
+        }
+        // insert overtime starting from beginning again
+        //FIXME - make it dry
+        totalDayHoursRows = totalDayHoursTable.children[1];
+        totalDayHoursCells = totalDayHoursRows.children[1];
+        for (let i = 0; i < totalDayHoursCells.children.length; i++) {
+            let dayHoursComponent = totalDayHoursCells.children[i];
+            let dayHoursBackgroundColor = dayHoursComponent.style.getPropertyValue("background-color");
+            shallInsertHours = (dayHoursBackgroundColor === bgColorPartialHoursExpected
+                || dayHoursBackgroundColor === bgColorDefaultExpected
+                || dayHoursBackgroundColor === bgColorPartialHoursWarning
+                || dayHoursBackgroundColor === bgColorCorrect
+                || dayHoursBackgroundColor === bgColorWarning);
+            if (shallInsertHours) {
+                let totalDayHoursText = dayHoursComponent.textContent;
+                totalDayHours = parseFloat(totalDayHoursText);
+                //console.log("Day " + i + " -> " + totalDayHours);
+
+                if (totalDayHours < maxHoursDaily + hoursOvertime && hours > parseFloat(0)) {
+                    let freeHours = maxHoursDaily + hoursOvertime - totalDayHours;
+                    let hoursToInsert = freeHours <= hours ? freeHours : hours;
+                    //console.log("YES, insert hours here: " + hoursToInsert + " from " + hours + "| i = " + i + ",taskId=" + taskId);
+                    hours = hours - hoursToInsert;
+
+                    //var dayHoursTable = document.querySelector('#table4');
+                    let dayHoursTBody = dayHoursTable.children[1];
+                    let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=3
+                    let dayHoursCell = dayHoursRow.children[i]; //i=0
+                    let dayHoursInput = dayHoursCell.children[0];
+                    let currentHours;
+                    if (dayHoursInput.value === '' || dayHoursInput.value === null) {
+                        currentHours = parseFloat('0');
+                    } else {
+                        if (parseFloat("0,1") === 0) {
+                            currentHours = parseFloat(dayHoursInput.value.replaceAll(",", "."));
+                        } else {
+                            currentHours = parseFloat(dayHoursInput.value.replaceAll(".", ","));
+                        }
+                        // currentHours = parseFloat(dayHoursInput.value);
+                    }
+                    dayHoursInput.value = currentHours + hoursToInsert;
+                    dayHoursInput.onchange();
+                }
+            }
+        }
+        window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();
     }
 
     function removeHours() {
@@ -928,7 +987,8 @@
             //const content = await file.text();
             const fileReader = new FileReader();
             fileReader.addEventListener('load', (event) => {
-                const commentOffset = 6;
+                    const commentOffset = 6;
+
                     function updateHoursInMainOrInSubtask(currentDescriptionInDetails, idMain, resultsFound, foundTasksForCurrent) {
                         const commentOffset = 6;
                         // check if it is subtask or not -> add
