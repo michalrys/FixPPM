@@ -32,6 +32,13 @@
             width: 50px;
         }
 
+        input#hoursOvertime {
+            width: 20px;
+            padding-left: 5px;
+            text-align: center;
+            background: #c9dcc7;
+        }
+
         select {
             background: #e8ffe5;
             box-shadow: 3px 3px #b4b4b4 inset;
@@ -52,7 +59,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 40px;
+            margin-left: 20px;
         }
 
         input#removeButton {
@@ -65,7 +72,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 15px;
+            margin-left: 10px;
         }
 
         input#insertButton:active {
@@ -119,7 +126,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 30px;
+            margin-left: 10px;
         }
 
         input#convertJiraReportDetailsButton:active {
@@ -257,6 +264,7 @@
             </td>
             <td>
                 <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
+                <input type="text" id="hoursOvertime" value="0" size="100px" onmouseover="hoursOvertimeInfo()">
                 <input type="button" id="insertButton" value="INSERT" onclick="insertHours()"
                        onmouseover="insertButtonInfo()">
                 <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()"
@@ -297,6 +305,10 @@
         status.textContent = "Hours ? write here amount of h for selected task. Both , and . are supported.";
     }
 
+    function hoursOvertimeInfo() {
+        status.textContent = "Overtime ? allowable overtime hours per day.";
+    }
+
     function foundTasksInfo() {
         status.textContent = "Task ? select filtered one.";
     }
@@ -306,15 +318,15 @@
     }
 
     function removeButtonInfo() {
-        status.textContent = "REMOVE ? try to substruct given hours from selected task, if it is posiible, starting from last day.";
+        status.textContent = "RREMOVE ? try to subtract given hours from selected task, if it is possible, starting from last day.";
     }
 
     function convertJiraReportInfoDetailed() {
-        status.textContent = "xls 2 ? read xls report from Jira (Group By PPM Project 20xx, Issue) and covert to input txt file.";
+        status.textContent = "xls 2 ? read xls report from Jira (Group By PPM Project 20xx, Issue) and convert to input txt file.";
     }
 
     function convertJiraReportInfo() {
-        status.textContent = "xls ? read xls report from Jira (Group By PPM Project 20xx) and covert to input txt file.";
+        status.textContent = "xls ? read xls report from Jira (Group By PPM Project 20xx) and convert to input txt file.";
     }
 
     function writeToTxtButtonInfo() {
