@@ -569,9 +569,11 @@
                 || dayHoursBackgroundColor === bgColorDefaultExpected
                 || dayHoursBackgroundColor === bgColorPartialHoursWarning
                 || dayHoursBackgroundColor === bgColorCorrect
-                || dayHoursBackgroundColor === bgColorWarning
-                || dayHoursBackgroundColor === bgColorSaturdayRGB
-                || dayHoursBackgroundColor === bgColorSundayRGB);
+                || dayHoursBackgroundColor === bgColorWarning);
+            if(shallAddOvertimeOnWeekends && !shallInsertHours) {
+                shallInsertHours = (dayHoursBackgroundColor === bgColorSaturdayRGB
+                    || dayHoursBackgroundColor === bgColorSundayRGB);
+            }
             if (shallInsertHours) {
                 let totalDayHoursText = dayHoursComponent.textContent;
                 totalDayHours = parseFloat(totalDayHoursText);

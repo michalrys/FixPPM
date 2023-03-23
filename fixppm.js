@@ -650,9 +650,11 @@
         hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorDefaultExpected");
         hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorPartialHoursWarning");
         hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorCorrect");
-        hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorWarning");
-        hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorSaturdayRGB");
-        hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorSundayRGB);");
+        hiWindow.document.writeln("                || dayHoursBackgroundColor === bgColorWarning);");
+        hiWindow.document.writeln("            if(shallAddOvertimeOnWeekends && !shallInsertHours) {");
+        hiWindow.document.writeln("                shallInsertHours = (dayHoursBackgroundColor === bgColorSaturdayRGB");
+        hiWindow.document.writeln("                    || dayHoursBackgroundColor === bgColorSundayRGB);");
+        hiWindow.document.writeln("            }");
         hiWindow.document.writeln("            if (shallInsertHours) {");
         hiWindow.document.writeln("                let totalDayHoursText = dayHoursComponent.textContent;");
         hiWindow.document.writeln("                totalDayHours = parseFloat(totalDayHoursText);");
