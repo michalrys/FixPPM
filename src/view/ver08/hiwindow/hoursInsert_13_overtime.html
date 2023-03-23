@@ -35,8 +35,18 @@
         input#hoursOvertime {
             width: 20px;
             padding-left: 5px;
+            padding-right: 0px;
             text-align: center;
             background: #c9dcc7;
+        }
+
+        input#hoursOvertimeWeekends {
+            width: 12px;
+            box-shadow: 0px 0px;
+            padding: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin: 0px;
         }
 
         select {
@@ -59,7 +69,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 20px;
+            margin-left: 10px;
         }
 
         input#removeButton {
@@ -262,6 +272,7 @@
             <td>
                 <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
                 <input type="text" id="hoursOvertime" value="0" size="100px" onmouseover="hoursOvertimeInfo()">
+                <input type="checkbox" id="hoursOvertimeWeekends" onmouseover="hoursOvertimeWeekendsInfo()">
                 <input type="button" id="insertButton" value="INSERT" onclick="insertHours()"
                        onmouseover="insertButtonInfo()">
                 <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()"
@@ -306,6 +317,10 @@
 
     function hoursOvertimeInfo() {
         status.textContent = "Overtime ? allowable overtime hours per day. Use 0 for no overtime.";
+    }
+
+    function hoursOvertimeWeekendsInfo() {
+        status.textContent = "Overtime on weekends ? allowable overtime on weekends first.";
     }
 
     function foundTasksInfo() {
@@ -437,6 +452,8 @@
         let bgColorPartialHoursWarning = "rgb(255, 255, 124)";
         var bgColorCorrect = "rgb(152, 191, 105)";
         var bgColorWarning = "rgb(249, 249, 102)";
+        var bgColorSaturdayRGB = "rgb(255, 153, 153)";
+        var bgColorSundayRGB = "rgb(255, 102, 102)";
         let maxHoursDaily = 8;
         // ! be careful with these
 
@@ -489,6 +506,50 @@
         if (hours <= 0) {
             return;
         }
+        // insert overtime into weekends starting from beginning
+        let shallAddOvertimeOnWeekends = document.querySelector('#hoursOvertimeWeekends').checked;
+        if(shallAddOvertimeOnWeekends) {
+            //FIXME - make it dry
+            totalDayHoursRows = totalDayHoursTable.children[1];
+            totalDayHoursCells = totalDayHoursRows.children[1];
+            for (let i = 0; i < totalDayHoursCells.children.length; i++) {
+                let dayHoursComponent = totalDayHoursCells.children[i];
+                let dayHoursBackgroundColor = dayHoursComponent.style.getPropertyValue("background-color");
+                shallInsertHours = (dayHoursBackgroundColor === bgColorSaturdayRGB
+                    || dayHoursBackgroundColor === bgColorSundayRGB);
+                if (shallInsertHours) {
+                    let totalDayHoursText = dayHoursComponent.textContent;
+                    totalDayHours = parseFloat(totalDayHoursText);
+                    //console.log("Day " + i + " -> " + totalDayHours);
+
+                    if (totalDayHours < maxHoursDaily && hours > parseFloat(0)) {
+                        let freeHours = maxHoursDaily - totalDayHours;
+                        let hoursToInsert = freeHours <= hours ? freeHours : hours;
+                        //console.log("YES, insert hours here: " + hoursToInsert + " from " + hours + "| i = " + i + ",taskId=" + taskId);
+                        hours = hours - hoursToInsert;
+
+                        //var dayHoursTable = document.querySelector('#table4');
+                        let dayHoursTBody = dayHoursTable.children[1];
+                        let dayHoursRow = dayHoursTBody.children[taskId];  //taskId=3
+                        let dayHoursCell = dayHoursRow.children[i]; //i=0
+                        let dayHoursInput = dayHoursCell.children[0];
+                        let currentHours;
+                        if (dayHoursInput.value === '' || dayHoursInput.value === null) {
+                            currentHours = parseFloat('0');
+                        } else {
+                            if (parseFloat("0,1") === 0) {
+                                currentHours = parseFloat(dayHoursInput.value.replaceAll(",", "."));
+                            } else {
+                                currentHours = parseFloat(dayHoursInput.value.replaceAll(".", ","));
+                            }
+                            // currentHours = parseFloat(dayHoursInput.value);
+                        }
+                        dayHoursInput.value = currentHours + hoursToInsert;
+                        dayHoursInput.onchange();
+                    }
+                }
+            }
+        }
         if (parseFloat("0,1") === 0) {
             hoursOvertime = parseFloat(document.querySelector('#hoursOvertime').value.replaceAll(",", "."));
         } else {
@@ -497,7 +558,7 @@
         if (hoursOvertime <= 0) {
             return;
         }
-        // insert overtime starting from beginning again
+        // insert overtime into working days starting from beginning again
         //FIXME - make it dry
         totalDayHoursRows = totalDayHoursTable.children[1];
         totalDayHoursCells = totalDayHoursRows.children[1];
@@ -508,7 +569,9 @@
                 || dayHoursBackgroundColor === bgColorDefaultExpected
                 || dayHoursBackgroundColor === bgColorPartialHoursWarning
                 || dayHoursBackgroundColor === bgColorCorrect
-                || dayHoursBackgroundColor === bgColorWarning);
+                || dayHoursBackgroundColor === bgColorWarning
+                || dayHoursBackgroundColor === bgColorSaturdayRGB
+                || dayHoursBackgroundColor === bgColorSundayRGB);
             if (shallInsertHours) {
                 let totalDayHoursText = dayHoursComponent.textContent;
                 totalDayHours = parseFloat(totalDayHoursText);

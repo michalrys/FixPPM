@@ -35,8 +35,18 @@
         input#hoursOvertime {
             width: 20px;
             padding-left: 5px;
+            padding-right: 0px;
             text-align: center;
             background: #c9dcc7;
+        }
+
+        input#hoursOvertimeWeekends {
+            width: 12px;
+            box-shadow: 0px 0px;
+            padding: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin: 0px;
         }
 
         select {
@@ -59,7 +69,7 @@
             height: 40px;
             border-width: 3px;
             padding-left: 0px;
-            margin-left: 20px;
+            margin-left: 10px;
         }
 
         input#removeButton {
@@ -265,6 +275,7 @@
             <td>
                 <input type="text" id="hoursAmount" value="40" size="100px" onmouseover="hoursAmountInfo()">
                 <input type="text" id="hoursOvertime" value="0" size="100px" onmouseover="hoursOvertimeInfo()">
+                <input type="checkbox" id="hoursOvertimeWeekends" onmouseover="hoursOvertimeWeekendsInfo()">
                 <input type="button" id="insertButton" value="INSERT" onclick="insertHours()"
                        onmouseover="insertButtonInfo()">
                 <input type="button" id="removeButton" value="REMOVE" onclick="removeHours()"
@@ -307,6 +318,10 @@
 
     function hoursOvertimeInfo() {
         status.textContent = "Overtime ? allowable overtime hours per day. Use 0 for no overtime.";
+    }
+
+    function hoursOvertimeWeekendsInfo() {
+        status.textContent = "Overtime on weekends ? allowable overtime on weekends first.";
     }
 
     function foundTasksInfo() {
