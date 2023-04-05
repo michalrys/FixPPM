@@ -46,7 +46,7 @@
 
     let buttonLog = document.getElementById("log-work-submit");
     setTimeout(function() {
-        //buttonLog.click();
+        buttonLog.click();
     }, 2000);
     //buttonLog.click();
 
