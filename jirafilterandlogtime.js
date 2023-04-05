@@ -192,7 +192,7 @@
         let myHoursInput = document.createElement('input');
         myHoursInput.id = "myHoursInput";
         myHoursInput.title = "Hours in h, eg.: 0.5, 2, 0.25";
-        myHoursInput.style = "height: 15px; width: 20px; font-size: 10px; color: #6B778C; margin-right: 3px; text-align:center; border: unset; background: #fafafa";
+        myHoursInput.style = "height: 15px; width: 40px; font-size: 10px; color: #6B778C; margin-right: 3px; text-align:center; border: unset; background: #fafafa";
         pseudoBatchDiv.appendChild(myHoursInput, undefined);
 
         let myHoursLabel = document.createElement('label');
