@@ -301,6 +301,7 @@
     let foundFiltered = [];
     let foundId = new Map();
     let sumHoursForTask = [];
+    let taskSumHours = new Map();
     let task = "";
     let hours = "";
     let hoursOvertime = "";
@@ -361,6 +362,8 @@
 
         //find tasks
         let found = [];
+        sumHoursForTask = [];
+        taskSumHours = new Map();
 
         var taskTable = window.opener.document.querySelector('#table3'); //put here window.opener.  <<<<<<
         var tasksRows = taskTable.children[1];
@@ -393,6 +396,7 @@
             var sumHours = sumHoursTableTBodyTDsubtable.children[0].children[0].children[1].children[0].textContent;
             //console.log("sumHours=" + sumHours);
             sumHoursForTask.push(sumHours);
+            taskSumHours.set(taskName, sumHours);
 
             //console.log(sumHoursForTask);
             // finding sum hours
@@ -717,8 +721,8 @@
                 let foundTask = fondTasks[i].value;
                 await writable.write("====" + foundTask + "\\n");
                 await writable.write(200 + "\\n");
-                let sumHours = sumHoursForTask[i];
-                await writable.write(sumHours + " #SUM\\n");
+                let sumHours = taskSumHours.get(foundTask);
+                await writable.write("+" + sumHours + " #SUM\\n");
                 //console.log("sum=" + sumHours + "\\n");
             }
             await writable.close();
