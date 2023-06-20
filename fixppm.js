@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
-// @version      1.8.18
+// @version      1.8.19
 // @description  Bugfix for public holidays.
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -1523,8 +1523,11 @@
         hiWindow.document.writeln("</html>");
 
 
-
-        window.opener.document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();
+        try {
+            window.opener.document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();
+        } catch (error) {
+            console.log("Upps: some strange error with line 1527:window.opener.document.querySelectorAll('input[id=filterTasks]')[0].onkeyup();  Verify this later.");
+        }
         validateAllFields()
         // PASTE HERE CONVERTED PAGE
 
