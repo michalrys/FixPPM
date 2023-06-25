@@ -458,11 +458,11 @@
         var bgColorWarning = "rgb(249, 249, 102)";
         var bgColorSaturdayRGB = "rgb(255, 153, 153)";
         var bgColorSundayRGB = "rgb(255, 102, 102)";
-        let maxHoursDaily = 8;
+        let maxHoursDaily = parseFloat("8");
         // ! be careful with these
 
         let shallInsertHours = false;
-        let totalDayHours = 0;
+        let totalDayHours = parseFloat("0");
         var totalDayHoursTable = window.opener.document.querySelector('#table7');  //put here window.opener.  <<<<<<
         var dayHoursTable = window.opener.document.querySelector('#table4');  //put here window.opener.  <<<<<<
 
@@ -475,7 +475,7 @@
                 || dayHoursBackgroundColor === bgColorDefaultExpected || dayHoursBackgroundColor === bgColorPartialHoursWarning);
             if (shallInsertHours) {
                 let totalDayHoursText = dayHoursComponent.textContent;
-                totalDayHours = parseFloat(totalDayHoursText);
+                totalDayHours = parseFloat(totalDayHoursText.trim().replaceAll(",", "."));
                 //console.log("Day " + i + " -> " + totalDayHours);
 
                 if (totalDayHours < maxHoursDaily && hours > parseFloat(0)) {
@@ -501,6 +501,9 @@
                         // currentHours = parseFloat(dayHoursInput.value);
                     }
                     dayHoursInput.value = currentHours + hoursToInsert;
+                    if (totalDayHoursText.trim().indexOf(".") === -1) {
+                        dayHoursInput.value = dayHoursInput.value.replaceAll(".", ",");
+                    }
                     dayHoursInput.onchange();
                     // validateAllFields();
                     window.opener.document.querySelectorAll('input[id=validateAllFieldsButton]')[0].click();
@@ -512,7 +515,7 @@
         }
         // insert overtime into weekends starting from beginning
         let shallAddOvertimeOnWeekends = document.querySelector('#hoursOvertimeWeekends').checked;
-        if(shallAddOvertimeOnWeekends) {
+        if (shallAddOvertimeOnWeekends) {
             //FIXME - make it dry
             totalDayHoursRows = totalDayHoursTable.children[1];
             totalDayHoursCells = totalDayHoursRows.children[1];
@@ -523,7 +526,7 @@
                     || dayHoursBackgroundColor === bgColorSundayRGB);
                 if (shallInsertHours) {
                     let totalDayHoursText = dayHoursComponent.textContent;
-                    totalDayHours = parseFloat(totalDayHoursText);
+                    totalDayHours = parseFloat(totalDayHoursText.trim().replaceAll(",", "."));
                     //console.log("Day " + i + " -> " + totalDayHours);
 
                     if (totalDayHours < maxHoursDaily && hours > parseFloat(0)) {
@@ -549,6 +552,9 @@
                             // currentHours = parseFloat(dayHoursInput.value);
                         }
                         dayHoursInput.value = currentHours + hoursToInsert;
+                        if (totalDayHoursText.trim().indexOf(".") === -1) {
+                            dayHoursInput.value = dayHoursInput.value.replaceAll(".", ",");
+                        }
                         dayHoursInput.onchange();
                     }
                 }
@@ -574,13 +580,13 @@
                 || dayHoursBackgroundColor === bgColorPartialHoursWarning
                 || dayHoursBackgroundColor === bgColorCorrect
                 || dayHoursBackgroundColor === bgColorWarning);
-            if(shallAddOvertimeOnWeekends && !shallInsertHours) {
+            if (shallAddOvertimeOnWeekends && !shallInsertHours) {
                 shallInsertHours = (dayHoursBackgroundColor === bgColorSaturdayRGB
                     || dayHoursBackgroundColor === bgColorSundayRGB);
             }
             if (shallInsertHours) {
                 let totalDayHoursText = dayHoursComponent.textContent;
-                totalDayHours = parseFloat(totalDayHoursText);
+                totalDayHours = parseFloat(totalDayHoursText.trim().replaceAll(",", "."));
                 //console.log("Day " + i + " -> " + totalDayHours);
 
                 if (totalDayHours < maxHoursDaily + hoursOvertime && hours > parseFloat(0)) {
@@ -606,6 +612,9 @@
                         // currentHours = parseFloat(dayHoursInput.value);
                     }
                     dayHoursInput.value = currentHours + hoursToInsert;
+                    if (totalDayHoursText.trim().indexOf(".") === -1) {
+                        dayHoursInput.value = dayHoursInput.value.replaceAll(".", ",");
+                    }
                     dayHoursInput.onchange();
                 }
             }
@@ -630,7 +639,7 @@
         // ! be careful with these
 
         let shallRemoveHours = false;
-        let totalDayHours = 0;
+        let totalDayHours = parseFloat('0');
         var totalDayHoursTable = window.opener.document.querySelector('#table7');  //put here window.opener.  <<<<<<
         var dayHoursTable = window.opener.document.querySelector('#table4');  //put here window.opener.  <<<<<<
 
@@ -639,7 +648,7 @@
         for (let i = totalDayHoursCells.children.length - 1; i >= 0; i--) {
             let dayHoursComponent = totalDayHoursCells.children[i];
             let totalDayHoursText = dayHoursComponent.textContent;
-            totalDayHours = parseFloat(totalDayHoursText);
+            totalDayHours = parseFloat(totalDayHoursText.trim().replaceAll(",", "."));
             //console.log("Day " + i + " -> " + totalDayHours);
 
             //var dayHoursTable = document.querySelector('#table4');
@@ -666,6 +675,9 @@
                 hours = hours - hoursToRemove;
 
                 dayHoursInput.value = currentHours - hoursToRemove;
+                if (totalDayHoursText.trim().indexOf(".") === -1) {
+                    dayHoursInput.value = dayHoursInput.value.replaceAll(".", ",");
+                }
                 try {
                     dayHoursInput.onchange();
                 } catch (error) {
