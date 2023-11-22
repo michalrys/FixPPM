@@ -5,7 +5,7 @@
 // @homepageURL  https://github.com/michalrys/FixPPM
 // @updateURL    https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
 // @downloadURL  https://raw.githubusercontent.com/michalrys/FixPPM/master/fixppm.js
-// @version      1.8.21
+// @version      1.8.22
 // @description  Bugfix for insert/remove hours with ,
 // @author       Damian Zyngier, Michał Ryś
 // @match        https://itg.crifnet.com/itg/tm/EditTimeSheet.do?timesheetId=*
@@ -38,7 +38,7 @@
     //var publicHolidays = ["01-01", "01-06", "04-09", "04-10", "05-01", "05-03", "05-28", "06-08", "08-15", "11-01", "11-11", "12-25", "12-26"];
     // Formatting options: English Unitated States
     // M.Rys: $ is needed here for regex check - for days 1, 2, 3 only. (previous error: given holiday '5/1' regex check date 'Wed<br>5/10' -> true)
-    var publicHolidays = ["1/1$", "1/6", "4/9", "4/10", "5/1$", "5/3$", "5/28", "6/8", "8/15", "11/1$", "11/11", "12/25", "12/26"];
+    var publicHolidays = ["[^1-9]1/1$", "[^1-9]1/6", "4/9", "4/10", "5/1$", "5/3$", "5/28", "6/8", "8/15", "11/1$", "11/11", "12/25", "12/26"];
 
     function isZero(content) {
         return parseFloat(content) === parseFloat("0");

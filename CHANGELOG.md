@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.22] - 2023-11-22, M.Ryś
+
+- fixppm: update regex for publicHolidays.
+
 ## [1.8.19] - 2023-06-20, M.Ryś
 
 - InsertHours window: hotfix for Chrome.
