@@ -1880,8 +1880,14 @@
         var table = document.getElementById("table3")
         var spans = table.getElementsByTagName("span");
         for (var span of spans) {
-            if (!span.title.toLowerCase().includes("asset")) {
-                span.textContent = span.title.split("&gt; ")[1]
+            let title = span.title;
+            if (!title.toLowerCase().includes("asset")) {
+                if(title != '') {
+                    span.textContent = title.split("&gt; ")[1]
+                } else {
+                    let size = span.childNodes.length;
+                    span.textContent = span.childNodes[size - 1].text;
+                }
             }
         }
     }
