@@ -874,11 +874,30 @@
                     const jiraTaskPPMTask = new Map();
                     let currentIssue = "";
                     let currentPPMProject = "";
+
+                    //fix typos - read map
+                    let containerDiv = window.opener.document.getElementById('jiraNamePPMTaskName');
+                    let ppmFullNameVSexpectedJiraFullName = new Map();
+                    Array.from(containerDiv.children).forEach(childDiv => {
+                        let content = childDiv.textContent;
+                        let [keyPart, valuePart] = content.split(', ');
+                        let key = keyPart.replace('Key: ', '').trim();
+                        let value = valuePart.replace('Value: ', '').trim();
+                        ppmFullNameVSexpectedJiraFullName.set(key, value);
+                    });
+                    console.log(">>> ppmFullNameVSexpectedJiraFullName.keys()" + ppmFullNameVSexpectedJiraFullName.keys())
+
                     for (let i = 0; i < sheetContent.length; i++) {
                         let elementOnSheet = sheetContent[i];
                         console.log("Element " + i + " = " + elementOnSheet)
                         for (let key in elementOnSheet) {
                             let value = elementOnSheet[key];
+
+                            //fix typos -> convert jira full name (value) to ppm full name if exists
+                            if (ppmFullNameVSexpectedJiraFullName.get(value) !== undefined) {
+                                value = ppmFullNameVSexpectedJiraFullName.get(value);
+                            }
+
                             console.log("---> key=" + key + ", value=" + value);
                             if (key.search("Issue") === 0) {
                                 currentIssue = value;
