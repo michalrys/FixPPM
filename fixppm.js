@@ -56,6 +56,7 @@
         jiraNamePPMTaskNameDIV.appendChild(entryDiv);
     });
     jiraNamePPMTaskNameDIV.id = "jiraNamePPMTaskName"
+    jiraNamePPMTaskNameDIV.style = "display:none"
     document.body.appendChild(jiraNamePPMTaskNameDIV)
 
     // Access the data → use it in parsing xls2
